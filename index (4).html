@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python小探险家 - 小学生Python基础复习网站</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4A90E2',
+                        secondary: '#50E3C2',
+                        accent: '#F5A623',
+                        success: '#7ED321',
+                        warning: '#F8E71C',
+                        danger: '#FF6B6B',
+                        dark: '#4A4A4A',
+                        light: '#F8F9FA'
+                    },
+                    fontFamily: {
+                        sans: ['Comic Sans MS', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .btn-primary {
+                @apply bg-primary text-white font-bold py-2 px-4 rounded-full shadow-md hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-white font-bold py-2 px-4 rounded-full shadow-md hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105;
+            }
+            .btn-accent {
+                @apply bg-accent text-white font-bold py-2 px-4 rounded-full shadow-md hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105;
+            }
+            .progress-bar {
+                @apply h-4 bg-gray-200 rounded-full overflow-hidden;
+            }
+            .progress-value {
+                @apply h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500;
+            }
+            .code-block {
+                @apply bg-dark text-white p-4 rounded-lg shadow-inner font-mono text-sm overflow-x-auto;
+            }
+            .highlight {
+                @apply bg-yellow-200 px-1 py-0.5 rounded;
+            }
+            .badge {
+                @apply inline-block px-2 py-1 text-xs font-semibold rounded-full;
+            }
+            .badge-bronze {
+                @apply bg-amber-700 text-amber-100;
+            }
+            .badge-silver {
+                @apply bg-gray-400 text-white;
+            }
+            .badge-gold {
+                @apply bg-yellow-500 text-white;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light min-h-screen">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1e9037e89070456ba6ace81310d8caeb~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393766&x-signature=1lnflU8sij6IE6YTPaF%2BexgpIp4%3D" alt="Python小探险家" class="h-12 w-12 rounded-full">
+                <h1 class="text-2xl font-bold text-primary">Python小探险家</h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="text-dark hover:text-primary transition-colors duration-300 font-medium">首页</a>
+                <a href="#knowledge-map" class="text-dark hover:text-primary transition-colors duration-300 font-medium">知识地图</a>
+                <a href="#achievements" class="text-dark hover:text-primary transition-colors duration-300 font-medium">成就徽章</a>
+                <a href="#about" class="text-dark hover:text-primary transition-colors duration-300 font-medium">关于我们</a>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <span class="absolute -top-1 -right-1 bg-accent text-white rounded-full h-4 w-4 flex items-center justify-center text-xs" id="progress-percentage">0%</span>
+                    <div class="progress-bar w-32">
+                        <div class="progress-value" style="width: 0%" id="progress-bar"></div>
+                    </div>
+                </div>
+                <button class="btn-primary" id="start-adventure">开始探险</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 欢迎区域 -->
+    <section class="py-12 bg-gradient-to-b from-blue-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-4xl md:text-5xl font-bold text-dark mb-4">欢迎来到<span class="text-primary">Python</span>的奇妙世界！</h2>
+                    <p class="text-lg text-gray-600 mb-6">这里是专为小学生设计的Python基础复习网站，通过有趣的互动方式，帮助你巩固编程知识，成为编程小达人！</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="btn-primary" id="start-learning">开始学习</button>
+                        <button class="btn-secondary" id="take-test">测试水平</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/e4b16b3e99e445699a5a296a198523de~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393766&x-signature=4a%2F%2Ft5fqte9lmHiSInZux5Ru9VU%3D" alt="Python编程" class="w-full max-w-md rounded-lg shadow-xl animate-float">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 知识地图 -->
+    <section id="knowledge-map" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-2">Python知识地图</h2>
+            <p class="text-gray-600 text-center mb-10">按难度递进的学习路径，帮助你系统掌握Python基础知识</p>
+            
+            <div class="flex justify-center mb-10">
+                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/07c0ee01d44149138b92b366d9d5bf1f~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393766&x-signature=fZyXWzU3SvOX01GgoUZSMACOny8%3D" alt="Python知识地图" class="w-full max-w-2xl rounded-lg shadow-lg">
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 变量 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover" data-topic="variables">
+                    <div class="h-2 bg-primary"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                                <i class="fa fa-cube text-primary text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-dark">变量</h3>
+                                <span class="badge badge-bronze">基础</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">学习如何在Python中创建和使用变量，存储各种类型的数据。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">难度: <i class="fa fa-star text-warning"></i></span>
+                            <button class="btn-primary py-1 px-3 text-sm" onclick="openTopic('variables')">开始学习</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 运算符 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover" data-topic="operators">
+                    <div class="h-2 bg-primary"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                                <i class="fa fa-calculator text-primary text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-dark">运算符</h3>
+                                <span class="badge badge-bronze">基础</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">探索Python中的各种运算符，包括算术、比较和逻辑运算符。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">难度: <i class="fa fa-star text-warning"></i></span>
+                            <button class="btn-primary py-1 px-3 text-sm" onclick="openTopic('operators')">开始学习</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 条件语句 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover" data-topic="conditionals">
+                    <div class="h-2 bg-secondary"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                                <i class="fa fa-code-fork text-secondary text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-dark">条件语句</h3>
+                                <span class="badge badge-silver">进阶</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">学习使用if-elif-else语句，让程序根据条件做出不同的决策。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">难度: <i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i></span>
+                            <button class="btn-secondary py-1 px-3 text-sm" onclick="openTopic('conditionals')">开始学习</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 循环 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover" data-topic="loops">
+                    <div class="h-2 bg-secondary"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                                <i class="fa fa-refresh text-secondary text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-dark">循环</h3>
+                                <span class="badge badge-silver">进阶</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">掌握for和while循环，让程序重复执行任务，提高效率。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">难度: <i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i></span>
+                            <button class="btn-secondary py-1 px-3 text-sm" onclick="openTopic('loops')">开始学习</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 列表 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover" data-topic="lists">
+                    <div class="h-2 bg-accent"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                                <i class="fa fa-list text-accent text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-dark">列表</h3>
+                                <span class="badge badge-silver">进阶</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">学习创建和操作列表，存储和管理多个数据项。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">难度: <i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i></span>
+                            <button class="btn-accent py-1 px-3 text-sm" onclick="openTopic('lists')">开始学习</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 字符串 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover" data-topic="strings">
+                    <div class="h-2 bg-accent"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                                <i class="fa fa-font text-accent text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-dark">字符串</h3>
+                                <span class="badge badge-gold">高级</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">探索字符串的各种操作方法，包括拼接、切片和格式化。</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">难度: <i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i><i class="fa fa-star text-warning"></i></span>
+                            <button class="btn-accent py-1 px-3 text-sm" onclick="openTopic('strings')">开始学习</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成就徽章 -->
+    <section id="achievements" class="py-12 bg-gradient-to-b from-white to-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-2">成就徽章</h2>
+            <p class="text-gray-600 text-center mb-10">完成学习任务，解锁精美徽章，展示你的编程技能！</p>
+            
+            <div class="flex justify-center mb-10">
+                <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/06a382563dcf4ea3bc3ce9d7e37e0680~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393769&x-signature=KFgrqryaGAFDzt88UHl8p0EI2Pw%3D" alt="Python成就徽章" class="w-full max-w-2xl rounded-lg shadow-lg">
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover" id="badge-variables">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-cube text-4xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark">变量大师</h4>
+                    <p class="text-xs text-gray-500">完成变量章节</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover" id="badge-operators">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-calculator text-4xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark">运算能手</h4>
+                    <p class="text-xs text-gray-500">完成运算符章节</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover" id="badge-conditionals">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-code-fork text-4xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark">决策专家</h4>
+                    <p class="text-xs text-gray-500">完成条件语句章节</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover" id="badge-loops">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-refresh text-4xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark">循环达人</h4>
+                    <p class="text-xs text-gray-500">完成循环章节</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover" id="badge-lists">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-list text-4xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark">列表管理员</h4>
+                    <p class="text-xs text-gray-500">完成列表章节</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover" id="badge-strings">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-font text-4xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark">字符串艺术家</h4>
+                    <p class="text-xs text-gray-500">完成字符串章节</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md p-4 text-center card-hover col-span-2 md:col-span-3 lg:col-span-6" id="badge-master">
+                    <div class="w-24 h-24 mx-auto mb-3 bg-gray-200 rounded-full flex items-center justify-center opacity-50">
+                        <i class="fa fa-trophy text-5xl text-gray-400"></i>
+                    </div>
+                    <h4 class="font-bold text-dark text-xl">Python大师</h4>
+                    <p class="text-sm text-gray-500">完成所有章节的学习</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-10">关于我们</h2>
+            
+            <div class="max-w-3xl mx-auto bg-blue-50 rounded-xl p-8 shadow-md">
+                <div class="flex items-center mb-6">
+                    <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1e9037e89070456ba6ace81310d8caeb~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393766&x-signature=1lnflU8sij6IE6YTPaF%2BexgpIp4%3D" alt="Python小探险家" class="w-16 h-16 rounded-full mr-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-dark">Python小探险家</h3>
+                        <p class="text-gray-600">专为小学生设计的Python学习平台</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 mb-4">我们致力于为小学生提供有趣、互动的Python编程学习体验。通过游戏化的学习方式，帮助孩子们轻松掌握编程基础知识，培养逻辑思维和解决问题的能力。</p>
+                
+                <p class="text-gray-700 mb-4">无论你是刚开始学习编程的新手，还是已经有一些基础想要巩固的同学，我们都能为你提供适合的学习内容和挑战。</p>
+                
+                <div class="flex justify-center mt-6">
+                    <button class="btn-primary" id="contact-us">联系我们</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Python小探险家</h3>
+                    <p class="text-gray-400">让编程学习变得有趣而简单</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i class="fa fa-facebook-square text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i class="fa fa-twitter-square text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i class="fa fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                        <i class="fa fa-youtube-square text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <hr class="border-gray-700 my-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2025 Python小探险家. 保留所有权利.</p>
+                
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">隐私政策</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">使用条款</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">常见问题</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 学习内容模态框 -->
+    <div id="topic-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-dark" id="modal-title">学习内容</h3>
+                    <button class="text-gray-500 hover:text-gray-700 text-2xl" onclick="closeTopic()">&times;</button>
+                </div>
+            </div>
+            
+            <div class="p-6" id="modal-content">
+                <!-- 动态内容将在这里加载 -->
+            </div>
+            
+            <div class="p-6 border-t bg-gray-50 rounded-b-xl">
+                <div class="flex justify-between items-center">
+                    <button class="btn-secondary" onclick="closeTopic()">关闭</button>
+                    <button class="btn-primary" id="complete-topic">完成学习</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测试模态框 -->
+    <div id="test-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-dark" id="test-modal-title">知识测试</h3>
+                    <button class="text-gray-500 hover:text-gray-700 text-2xl" onclick="closeTest()">&times;</button>
+                </div>
+            </div>
+            
+            <div class="p-6" id="test-modal-content">
+                <!-- 动态内容将在这里加载 -->
+            </div>
+            
+            <div class="p-6 border-t bg-gray-50 rounded-b-xl">
+                <div class="flex justify-between items-center">
+                    <button class="btn-secondary" onclick="closeTest()">关闭</button>
+                    <button class="btn-primary" id="submit-test">提交答案</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成功提示模态框 -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 text-center">
+            <div class="w-24 h-24 mx-auto mb-4 bg-success bg-opacity-20 rounded-full flex items-center justify-center">
+                <i class="fa fa-check text-5xl text-success"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-dark mb-2" id="success-title">恭喜！</h3>
+            <p class="text-gray-600 mb-6" id="success-message">你已成功完成任务！</p>
+            <button class="btn-primary" onclick="closeSuccess()">太棒了！</button>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentTopic = null;
+        let userProgress = {
+            variables: false,
+            operators: false,
+            conditionals: false,
+            loops: false,
+            lists: false,
+            strings: false
+        };
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 从本地存储加载进度
+            loadProgress();
+            
+            // 更新进度条
+            updateProgressBar();
+            
+            // 更新徽章状态
+            updateBadges();
+            
+            // 绑定按钮事件
+            document.getElementById('start-learning').addEventListener('click', function() {
+                document.getElementById('knowledge-map').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('take-test').addEventListener('click', function() {
+                openTest();
+            });
+            
+            document.getElementById('start-adventure').addEventListener('click', function() {
+                document.getElementById('knowledge-map').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('contact-us').addEventListener('click', function() {
+                alert('感谢您的关注！请发送邮件至 contact@python-explorer.com 与我们联系。');
+            });
+            
+            // 绑定模态框按钮事件
+            document.getElementById('complete-topic').addEventListener('click', completeTopic);
+            document.getElementById('submit-test').addEventListener('click', submitTest);
+        });
+        
+        // 加载用户进度
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('pythonExplorerProgress');
+            if (savedProgress) {
+                userProgress = JSON.parse(savedProgress);
+            }
+        }
+        
+        // 保存用户进度
+        function saveProgress() {
+            localStorage.setItem('pythonExplorerProgress', JSON.stringify(userProgress));
+        }
+        
+        // 更新进度条
+        function updateProgressBar() {
+            const completedTopics = Object.values(userProgress).filter(Boolean).length;
+            const totalTopics = Object.keys(userProgress).length;
+            const percentage = Math.round((completedTopics / totalTopics) * 100);
+            
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-percentage').textContent = `${percentage}%`;
+        }
+        
+        // 更新徽章状态
+        function updateBadges() {
+            for (const topic in userProgress) {
+                const badgeElement = document.getElementById(`badge-${topic}`);
+                if (badgeElement && userProgress[topic]) {
+                    const iconElement = badgeElement.querySelector('div');
+                    iconElement.classList.remove('bg-gray-200', 'opacity-50');
+                    iconElement.classList.add('bg-primary', 'bg-opacity-20');
+                    
+                    const icon = iconElement.querySelector('i');
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-primary');
+                }
+            }
+            
+            // 检查是否解锁大师徽章
+            const allCompleted = Object.values(userProgress).every(Boolean);
+            if (allCompleted) {
+                const masterBadge = document.getElementById('badge-master');
+                const iconElement = masterBadge.querySelector('div');
+                iconElement.classList.remove('bg-gray-200', 'opacity-50');
+                iconElement.classList.add('bg-accent', 'bg-opacity-20');
+                
+                const icon = iconElement.querySelector('i');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-accent');
+            }
+        }
+        
+        // 打开学习主题
+        function openTopic(topic) {
+            currentTopic = topic;
+            const modal = document.getElementById('topic-modal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+            
+            // 设置标题
+            switch (topic) {
+                case 'variables':
+                    title.textContent = '变量 - 数据的储存盒';
+                    break;
+                case 'operators':
+                    title.textContent = '运算符 - 数据的魔术师';
+                    break;
+                case 'conditionals':
+                    title.textContent = '条件语句 - 程序的决策师';
+                    break;
+                case 'loops':
+                    title.textContent = '循环 - 重复的艺术';
+                    break;
+                case 'lists':
+                    title.textContent = '列表 - 数据的集合';
+                    break;
+                case 'strings':
+                    title.textContent = '字符串 - 文本的世界';
+                    break;
+            }
+            
+            // 加载内容
+            content.innerHTML = getTopicContent(topic);
+            
+            // 显示模态框
+            modal.classList.remove('hidden');
+        }
+        
+        // 关闭学习主题
+        function closeTopic() {
+            document.getElementById('topic-modal').classList.add('hidden');
+            currentTopic = null;
+        }
+        
+        // 完成学习主题
+        function completeTopic() {
+            if (currentTopic) {
+                userProgress[currentTopic] = true;
+                saveProgress();
+                updateProgressBar();
+                updateBadges();
+                
+                // 显示成功提示
+                document.getElementById('success-title').textContent = '太棒了！';
+                document.getElementById('success-message').textContent = `你已成功完成"${document.getElementById('modal-title').textContent}"的学习！`;
+                document.getElementById('success-modal').classList.remove('hidden');
+                
+                // 关闭当前模态框
+                closeTopic();
+            }
+        }
+        
+        // 打开测试
+        function openTest() {
+            const modal = document.getElementById('test-modal');
+            const title = document.getElementById('test-modal-title');
+            const content = document.getElementById('test-modal-content');
+            
+            title.textContent = 'Python基础知识测试';
+            content.innerHTML = getTestContent();
+            
+            modal.classList.remove('hidden');
+        }
+        
+        // 关闭测试
+        function closeTest() {
+            document.getElementById('test-modal').classList.add('hidden');
+        }
+        
+        // 提交测试
+        function submitTest() {
+            const answers = {
+                q1: document.querySelector('input[name="q1"]:checked')?.value,
+                q2: document.querySelector('input[name="q2"]:checked')?.value,
+                q3: document.querySelector('input[name="q3"]:checked')?.value,
+                q4: document.querySelector('input[name="q4"]:checked')?.value,
+                q5: document.querySelector('input[name="q5"]:checked')?.value
+            };
+            
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'c',
+                q4: 'b',
+                q5: 'a'
+            };
+            
+            let score = 0;
+            for (const question in answers) {
+                if (answers[question] === correctAnswers[question]) {
+                    score++;
+                }
+            }
+            
+            // 显示测试结果
+            document.getElementById('success-title').textContent = '测试完成！';
+            document.getElementById('success-message').textContent = `你的得分是：${score}/5！${score >= 3 ? '做得不错！' : '继续加油！'}`;
+            document.getElementById('success-modal').classList.remove('hidden');
+            
+            // 关闭测试模态框
+            closeTest();
+        }
+        
+        // 关闭成功提示
+        function closeSuccess() {
+            document.getElementById('success-modal').classList.add('hidden');
+        }
+        
+        // 获取学习主题内容
+        function getTopicContent(topic) {
+            switch (topic) {
+                case 'variables':
+                    return `
+                        <div class="mb-6">
+                            <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/3177d3dfe5c943c1ae3b9b8c6d6338c5~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393791&x-signature=jylCiMwgXnO5QiR5sCwFvkMMSIM%3D" alt="变量" class="w-full max-w-md mx-auto mb-4 rounded-lg shadow-md">
+                            <h4 class="text-xl font-bold text-dark mb-3">什么是变量？</h4>
+                            <p class="text-gray-700 mb-4">变量就像是一个有名字的盒子，用来存储各种类型的数据，比如数字、文字或其他信息。在Python中，创建变量非常简单！</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 创建变量的基本语法
+name = "小明"  # 字符串变量
+age = 10       # 整数变量
+height = 145.5 # 浮点数变量
+is_student = True  # 布尔变量</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">变量的命名规则</h4>
+                            <ul class="list-disc pl-6 mb-4 text-gray-700">
+                                <li>变量名只能包含字母、数字和下划线</li>
+                                <li>变量名不能以数字开头</li>
+                                <li>变量名区分大小写（name和Name是不同的变量）</li>
+                                <li>不要使用Python的关键字作为变量名</li>
+                                <li>变量名应该有意义，便于理解</li>
+                            </ul>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 好的变量命名示例
+student_name = "小红"
+student_age = 9
+total_score = 95.5
+
+# 不好的变量命名示例
+x = "小红"  # 不明确
+2name = "小明"  # 不能以数字开头
+class = "三年级"  # class是Python关键字</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">变量的使用</h4>
+                            <p class="text-gray-700 mb-4">创建变量后，你可以随时使用它，也可以修改变量的值：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 创建并使用变量
+name = "小明"
+print("你好，" + name + "！")  # 输出：你好，小明！
+
+#修改变量的值
+name = "小红"
+print("你好，" + name + "！")  # 输出：你好，小红！
+
+# 使用变量进行计算
+age = 10
+next_year = age + 1
+print(name + "明年" + str(next_year) + "岁了。")  # 输出：小红明年11岁了。</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">互动练习</h4>
+                            <p class="text-gray-700 mb-2">尝试在下面的代码编辑器中创建几个变量，并使用它们：</p>
+                            
+                            <div class="bg-dark rounded-lg p-4 mb-4">
+                                <textarea class="w-full h-32 bg-dark text-white font-mono text-sm p-2 rounded" placeholder="# 在这里编写你的代码
+# 例如：创建一个变量存储你的名字
+# 然后打印出来"></textarea>
+                                <div class="flex justify-between mt-2">
+                                    <button class="bg-gray-600 text-white px-3 py-1 rounded text-sm">重置</button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">运行</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">运行结果将显示在这里</h5>
+                                <div class="min-h-16 bg-white border rounded p-2 font-mono text-sm text-gray-800"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                case 'operators':
+                    return `
+                        <div class="mb-6">
+                            <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/9e49741491c844459ed1f30373c7d967~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393794&x-signature=vllxI5HcuRX5xIjKUWvFdEfAcZs%3D" alt="运算符" class="w-full max-w-md mx-auto mb-4 rounded-lg shadow-md">
+                            <h4 class="text-xl font-bold text-dark mb-3">什么是运算符？</h4>
+                            <p class="text-gray-700 mb-4">运算符是用于执行操作的特殊符号，比如加法、减法、比较等。Python中有多种类型的运算符：</p>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">算术运算符</h4>
+                            <p class="text-gray-700 mb-2">用于执行基本的数学运算：</p>
+                            
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full bg-white border rounded-lg">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="py-2 px-4 border">运算符</th>
+                                            <th class="py-2 px-4 border">描述</th>
+                                            <th class="py-2 px-4 border">示例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border">+</td>
+                                            <td class="py-2 px-4 border">加法</td>
+                                            <td class="py-2 px-4 border">3 + 5 = 8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">-</td>
+                                            <td class="py-2 px-4 border">减法</td>
+                                            <td class="py-2 px-4 border">10 - 4 = 6</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">*</td>
+                                            <td class="py-2 px-4 border">乘法</td>
+                                            <td class="py-2 px-4 border">3 * 4 = 12</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">/</td>
+                                            <td class="py-2 px-4 border">除法</td>
+                                            <td class="py-2 px-4 border">12 / 3 = 4.0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">%</td>
+                                            <td class="py-2 px-4 border">取模（余数）</td>
+                                            <td class="py-2 px-4 border">10 % 3 = 1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">**</td>
+                                            <td class="py-2 px-4 border">幂运算</td>
+                                            <td class="py-2 px-4 border">2 ** 3 = 8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">//</td>
+                                            <td class="py-2 px-4 border">整除</td>
+                                            <td class="py-2 px-4 border">10 // 3 = 3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 算术运算符示例
+a = 10
+b = 3
+
+print(a + b)   # 输出：13
+print(a - b)   # 输出：7
+print(a * b)   # 输出：30
+print(a / b)   # 输出：3.3333333333333335
+print(a % b)   # 输出：1
+print(a ** b)  # 输出：1000
+print(a // b)  # 输出：3</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">比较运算符</h4>
+                            <p class="text-gray-700 mb-2">用于比较两个值，返回布尔值（True或False）：</p>
+                            
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full bg-white border rounded-lg">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="py-2 px-4 border">运算符</th>
+                                            <th class="py-2 px-4 border">描述</th>
+                                            <th class="py-2 px-4 border">示例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border">==</td>
+                                            <td class="py-2 px-4 border">等于</td>
+                                            <td class="py-2 px-4 border">5 == 5 返回 True</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">!=</td>
+                                            <td class="py-2 px-4 border">不等于</td>
+                                            <td class="py-2 px-4 border">5 != 3 返回 True</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">&gt;</td>
+                                            <td class="py-2 px-4 border">大于</td>
+                                            <td class="py-2 px-4 border">5 &gt; 3 返回 True</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">&lt;</td>
+                                            <td class="py-2 px-4 border">小于</td>
+                                            <td class="py-2 px-4 border">5 &lt; 3 返回 False</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">&gt;=</td>
+                                            <td class="py-2 px-4 border">大于等于</td>
+                                            <td class="py-2 px-4 border">5 &gt;= 5 返回 True</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">&lt;=</td>
+                                            <td class="py-2 px-4 border">小于等于</td>
+                                            <td class="py-2 px-4 border">5 &lt;= 3 返回 False</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 比较运算符示例
+x = 5
+y = 8
+
+print(x == y)  # 输出：False
+print(x != y)  # 输出：True
+print(x > y)   # 输出：False
+print(x < y)   # 输出：True
+print(x >= y)  # 输出：False
+print(x <= y)  # 输出：True</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">逻辑运算符</h4>
+                            <p class="text-gray-700 mb-2">用于组合条件语句：</p>
+                            
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full bg-white border rounded-lg">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="py-2 px-4 border">运算符</th>
+                                            <th class="py-2 px-4 border">描述</th>
+                                            <th class="py-2 px-4 border">示例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border">and</td>
+                                            <td class="py-2 px-4 border">与 - 两个条件都为True时返回True</td>
+                                            <td class="py-2 px-4 border">(5 > 3) and (5 < 10) 返回 True</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">or</td>
+                                            <td class="py-2 px-4 border">或 - 任一条件为True时返回True</td>
+                                            <td class="py-2 px-4 border">(5 > 3) or (5 > 10) 返回 True</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border">not</td>
+                                            <td class="py-2 px-4 border">非 - 反转条件的结果</td>
+                                            <td class="py-2 px-4 border">not(5 > 3) 返回 False</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 逻辑运算符示例
+a = 5
+b = 10
+c = 15
+
+# and 运算符
+print(a < b and b < c)  # 输出：True
+print(a > b and b < c)  # 输出：False
+
+# or 运算符
+print(a > b or b < c)   # 输出：True
+print(a > b or b > c)   # 输出：False
+
+# not 运算符
+print(not(a > b))       # 输出：True
+print(not(a < b))       # 输出：False</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">互动练习</h4>
+                            <p class="text-gray-700 mb-2">尝试在下面的代码编辑器中使用不同的运算符：</p>
+                            
+                            <div class="bg-dark rounded-lg p-4 mb-4">
+                                <textarea class="w-full h-32 bg-dark text-white font-mono text-sm p-2 rounded" placeholder="# 在这里编写你的代码
+# 例如：创建两个变量，然后使用不同的运算符
+
+num1 = 20
+num2 = 5
+
+# 尝试各种运算并打印结果"></textarea>
+                                <div class="flex justify-between mt-2">
+                                    <button class="bg-gray-600 text-white px-3 py-1 rounded text-sm">重置</button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">运行</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">运行结果将显示在这里</h5>
+                                <div class="min-h-16 bg-white border rounded p-2 font-mono text-sm text-gray-800"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                case 'conditionals':
+                    return `
+                        <div class="mb-6">
+                            <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/48db598c39444fb39f707454d140b601~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393797&x-signature=mJrubWzS%2BQIMJSTlUrhmGvpHWNo%3D" alt="条件语句" class="w-full max-w-md mx-auto mb-4 rounded-lg shadow-md">
+                            <h4 class="text-xl font-bold text-dark mb-3">什么是条件语句？</h4>
+                            <p class="text-gray-700 mb-4">条件语句允许程序根据不同的条件执行不同的操作。在Python中，我们使用if、elif和else关键字来创建条件语句。</p>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">if语句</h4>
+                            <p class="text-gray-700 mb-2">if语句用于检查条件是否为真，如果为真则执行特定的代码块：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># if语句的基本语法
+if 条件:
+    # 如果条件为真，执行这里的代码
+    代码语句1
+    代码语句2
+    ...</pre>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># if语句示例
+age = 12
+
+if age >= 18:
+    print("你已经成年了！")
+    print("可以投票了。")
+
+print("程序结束。")</pre>
+                            </div>
+                            
+                            <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                                <h5 class="font-bold text-dark mb-2">注意事项：</h5>
+                                <ul class="list-disc pl-6 text-gray-700">
+                                    <li>条件后面必须有冒号（:）</li>
+                                    <li>if语句块中的代码必须缩进（通常是4个空格）</li>
+                                    <li>Python使用缩进来表示代码块，而不是大括号{}</li>
+                                </ul>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">if-else语句</h4>
+                            <p class="text-gray-700 mb-2">if-else语句允许我们在条件为真时执行一个代码块，在条件为假时执行另一个代码块：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># if-else语句的基本语法
+if 条件:
+    # 如果条件为真，执行这里的代码
+    代码语句1
+    ...
+else:
+    # 如果条件为假，执行这里的代码
+    代码语句A
+    ...</pre>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># if-else语句示例
+age = 12
+
+if age >= 18:
+    print("你已经成年了！")
+else:
+    print("你还未成年。")
+
+print("程序结束。")</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">if-elif-else语句</h4>
+                            <p class="text-gray-700 mb-2">当我们需要检查多个条件时，可以使用if-elif-else语句：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># if-elif-else语句的基本语法
+if 条件1:
+    # 如果条件1为真，执行这里的代码
+    代码语句1
+    ...
+elif 条件2:
+    # 如果条件1为假但条件2为真，执行这里的代码
+    代码语句2
+    ...
+elif 条件3:
+    # 如果条件1和条件2都为假但条件3为真，执行这里的代码
+    代码语句3
+    ...
+else:
+    # 如果所有条件都为假，执行这里的代码
+    代码语句N
+    ...</pre>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># if-elif-else语句示例
+score = 85
+
+if score >= 90:
+    print("优秀")
+elif score >= 80:
+    print("良好")
+elif score >= 70:
+    print("中等")
+elif score >= 60:
+    print("及格")
+else:
+    print("不及格")</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">嵌套的条件语句</h4>
+                            <p class="text-gray-700 mb-2">我们可以在一个条件语句中嵌套另一个条件语句：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 嵌套的条件语句示例
+age = 16
+has_permission = True
+
+if age >= 18:
+    print("你已经成年了！")
+else:
+    print("你还未成年。")
+    if has_permission:
+        print("但你有家长的许可，可以参加活动。")
+    else:
+        print("你需要家长的许可才能参加活动。")</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">互动练习</h4>
+                            <p class="text-gray-700 mb-2">尝试在下面的代码编辑器中创建一个根据用户输入的数字判断其正负和奇偶性的程序：</p>
+                            
+                            <div class="bg-dark rounded-lg p-4 mb-4">
+                                <textarea class="w-full h-32 bg-dark text-white font-mono text-sm p-2 rounded" placeholder="# 在这里编写你的代码
+# 例如：获取用户输入的数字，然后判断其正负和奇偶性
+
+num = int(input("请输入一个整数："))
+
+# 判断正负
+# 判断奇偶
+# 打印结果"></textarea>
+                                <div class="flex justify-between mt-2">
+                                    <button class="bg-gray-600 text-white px-3 py-1 rounded text-sm">重置</button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">运行</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">运行结果将显示在这里</h5>
+                                <div class="min-h-16 bg-white border rounded p-2 font-mono text-sm text-gray-800"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                case 'loops':
+                    return `
+                        <div class="mb-6">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/44b39f4f74c04ef1aa992074b4ae1942~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393791&x-signature=p2X1lyX2Fhbgvs7pWFe3HOoesCU%3D" alt="循环" class="w-full max-w-md mx-auto mb-4 rounded-lg shadow-md">
+                            <h4 class="text-xl font-bold text-dark mb-3">什么是循环？</h4>
+                            <p class="text-gray-700 mb-4">循环是一种控制结构，允许我们重复执行一段代码多次。Python中有两种主要的循环类型：for循环和while循环。</p>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">for循环</h4>
+                            <p class="text-gray-700 mb-2">for循环用于遍历序列（如列表、元组、字符串）或其他可迭代对象：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># for循环的基本语法
+for 变量 in 可迭代对象:
+    # 执行的代码块
+    代码语句1
+    代码语句2
+    ...</pre>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 遍历列表
+fruits = ["苹果", "香蕉", "橙子", "葡萄"]
+for fruit in fruits:
+    print(fruit)
+
+# 遍历字符串
+word = "Python"
+for letter in word:
+    print(letter)
+
+# 使用range()函数
+for i in range(5):
+    print(i)  # 输出：0, 1, 2, 3, 4
+
+# range(start, stop, step)
+for i in range(2, 10, 2):
+    print(i)  # 输出：2, 4, 6, 8</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">while循环</h4>
+                            <p class="text-gray-700 mb-2">while循环在条件为真时重复执行代码块：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># while循环的基本语法
+while 条件:
+    # 执行的代码块
+    代码语句1
+    代码语句2
+    ...
+    # 通常需要更新条件中的变量，否则可能导致无限循环</pre>
+                            </div>
+                            
+                            <div class="code-block mb-4">
+                                <pre># while循环示例
+count = 0
+while count < 5:
+    print(count)
+    count += 1  # 不要忘记更新计数器，否则会无限循环
+
+# 计算1到10的和
+sum_result = 0
+num = 1
+while num <= 10:
+    sum_result += num
+    num += 1
+print("1到10的和是：", sum_result)</pre>
+                            </div>
+                            
+                            <div class="bg-yellow-50 p-4 rounded-lg mb-4">
+                                <h5 class="font-bold text-dark mb-2">警告：</h5>
+                                <p class="text-gray-700">在使用while循环时，一定要确保条件最终会变为False，否则循环将永远不会结束，导致程序卡住！</p>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">break和continue语句</h4>
+                            <p class="text-gray-700 mb-2">我们可以使用break和continue语句来控制循环的执行：</p>
+                            
+                            <ul class="list-disc pl-6 mb-4 text-gray-700">
+                                <li><strong>break</strong>：立即退出循环，不再执行循环中的任何代码</li>
+                                <li><strong>continue</strong>：跳过当前迭代的剩余代码，直接进入下一次迭代</li>
+                            </ul>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 使用break语句
+for i in range(10):
+    if i == 5:
+        break  # 当i等于5时，退出循环
+    print(i)  # 输出：0, 1, 2, 3, 4
+
+# 使用continue语句
+for i in range(10):
+    if i % 2 == 0:
+        continue  # 当i为偶数时，跳过当前迭代
+    print(i)  # 输出：1, 3, 5, 7, 9</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">嵌套循环</h4>
+                            <p class="text-gray-700 mb-2">我们可以在一个循环中嵌套另一个循环：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 嵌套循环示例 - 打印乘法表
+for i in range(1, 10):
+    for j in range(1, i+1):
+        print(f"{j} × {i} = {i*j}", end="\t")
+    print()  # 换行</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">循环中的else子句</h4>
+                            <p class="text-gray-700 mb-2">Python允许在循环后面添加else子句，当循环正常结束时（不是通过break语句）执行：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 循环中的else子句
+for i in range(5):
+    print(i)
+else:
+    print("循环正常结束")
+
+# 使用break时，else子句不会执行
+for i in range(5):
+    if i == 3:
+        break
+    print(i)
+else:
+    print("这条消息不会被打印")</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">互动练习</h4>
+                            <p class="text-gray-700 mb-2">尝试在下面的代码编辑器中创建一个程序，使用循环打印出一个简单的金字塔图案：</p>
+                            
+                            <div class="bg-dark rounded-lg p-4 mb-4">
+                                <textarea class="w-full h-32 bg-dark text-white font-mono text-sm p-2 rounded" placeholder="# 在这里编写你的代码
+# 例如：使用循环打印金字塔图案
+
+rows = 5
+
+# 使用嵌套循环打印金字塔
+# 外层循环控制行数
+# 内层循环控制每行的空格和星号"></textarea>
+                                <div class="flex justify-between mt-2">
+                                    <button class="bg-gray-600 text-white px-3 py-1 rounded text-sm">重置</button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">运行</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">运行结果将显示在这里</h5>
+                                <div class="min-h-16 bg-white border rounded p-2 font-mono text-sm text-gray-800"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                case 'lists':
+                    return `
+                        <div class="mb-6">
+                            <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/01cba13b3fbd475c901154fdd4fd6bbf~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393814&x-signature=hvGT5Y0L7uLF%2BOD0iplwuJskmpc%3D" alt="列表" class="w-full max-w-md mx-auto mb-4 rounded-lg shadow-md">
+                            <h4 class="text-xl font-bold text-dark mb-3">什么是列表？</h4>
+                            <p class="text-gray-700 mb-4">列表是Python中最常用的数据结构之一，它是一个有序的、可变的元素集合。列表中的元素可以是不同类型的数据，如整数、字符串、甚至其他列表。</p>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">创建列表</h4>
+                            <p class="text-gray-700 mb-2">列表使用方括号[]创建，元素之间用逗号分隔：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 创建列表的基本语法
+empty_list = []  # 空列表
+numbers = [1, 2, 3, 4, 5]  # 数字列表
+fruits = ["苹果", "香蕉", "橙子", "葡萄"]  # 字符串列表
+mixed = [1, "Python", 3.14, True, [1, 2, 3]]  # 混合类型列表</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">访问列表元素</h4>
+                            <p class="text-gray-700 mb-2">我们可以使用索引来访问列表中的元素。Python中的索引从0开始：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 访问列表元素
+fruits = ["苹果", "香蕉", "橙子", "葡萄"]
+
+print(fruits[0])  # 输出：苹果
+print(fruits[1])  # 输出：香蕉
+print(fruits[2])  # 输出：橙子
+print(fruits[3])  # 输出：葡萄
+
+# 使用负索引从列表末尾开始计数
+print(fruits[-1])  # 输出：葡萄（最后一个元素）
+print(fruits[-2])  # 输出：橙子（倒数第二个元素）</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">列表切片</h4>
+                            <p class="text-gray-700 mb-2">我们可以使用切片操作来获取列表的一个子集：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 列表切片
+numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# 基本语法：list[start:end:step]
+# start：起始索引（包含）
+# end：结束索引（不包含）
+# step：步长（默认为1）
+
+print(numbers[2:6])    # 输出：[2, 3, 4, 5]
+print(numbers[:5])     # 输出：[0, 1, 2, 3, 4]（从开始到索引4）
+print(numbers[5:])     # 输出：[5, 6, 7, 8, 9]（从索引5到结束）
+print(numbers[::2])    # 输出：[0, 2, 4, 6, 8]（步长为2）
+print(numbers[::-1])   # 输出：[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]（反转列表）</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">修改列表</h4>
+                            <p class="text-gray-700 mb-2">列表是可变的，我们可以修改、添加或删除元素：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 修改列表元素
+fruits = ["苹果", "香蕉", "橙子", "葡萄"]
+print(fruits)  # 输出：['苹果', '香蕉', '橙子', '葡萄']
+
+# 修改元素
+fruits[1] = "草莓"
+print(fruits)  # 输出：['苹果', '草莓', '橙子', '葡萄']
+
+# 添加元素
+fruits.append("梨")  # 在列表末尾添加元素
+print(fruits)  # 输出：['苹果', '草莓', '橙子', '葡萄', '梨']
+
+fruits.insert(2, "桃子")  # 在指定位置插入元素
+print(fruits)  # 输出：['苹果', '草莓', '桃子', '橙子', '葡萄', '梨']
+
+# 合并列表
+more_fruits = ["西瓜", "猕猴桃"]
+fruits.extend(more_fruits)  # 将另一个列表的所有元素添加到当前列表末尾
+print(fruits)  # 输出：['苹果', '草莓', '桃子', '橙子', '葡萄', '梨', '西瓜', '猕猴桃']
+
+# 删除元素
+del fruits[0]  # 删除指定索引的元素
+print(fruits)  # 输出：['草莓', '桃子', '橙子', '葡萄', '梨', '西瓜', '猕猴桃']
+
+fruits.remove("橙子")  # 删除指定值的元素
+print(fruits)  # 输出：['草莓', '桃子', '葡萄', '梨', '西瓜', '猕猴桃']
+
+popped = fruits.pop()  # 删除并返回列表末尾的元素
+print(popped)  # 输出：猕猴桃
+print(fruits)  # 输出：['草莓', '桃子', '葡萄', '梨', '西瓜']
+
+first_popped = fruits.pop(0)  # 删除并返回指定索引的元素
+print(first_popped)  # 输出：草莓
+print(fruits)  # 输出：['桃子', '葡萄', '梨', '西瓜']</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">列表操作和方法</h4>
+                            <p class="text-gray-700 mb-2">Python提供了许多有用的列表操作和方法：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 列表操作
+numbers = [1, 2, 3]
+
+# 列表连接
+more_numbers = numbers + [4, 5, 6]
+print(more_numbers)  # 输出：[1, 2, 3, 4, 5, 6]
+
+# 列表重复
+repeated = numbers * 3
+print(repeated)  # 输出：[1, 2, 3, 1, 2, 3, 1, 2, 3]
+
+# 列表长度
+print(len(numbers))  # 输出：3
+
+# 检查元素是否在列表中
+print(2 in numbers)  # 输出：True
+print(5 in numbers)  # 输出：False
+
+# 列表方法
+numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# 排序
+numbers.sort()
+print(numbers)  # 输出：[1, 1, 2, 3, 4, 5, 6, 9]
+
+# 反转
+numbers.reverse()
+print(numbers)  # 输出：[9, 6, 5, 4, 3, 2, 1, 1]
+
+# 统计元素出现次数
+print(numbers.count(1))  # 输出：2
+
+# 查找元素索引
+print(numbers.index(5))  # 输出：2（5在列表中的索引位置）
+
+# 复制列表
+numbers_copy = numbers.copy()
+print(numbers_copy)  # 输出：[9, 6, 5, 4, 3, 2, 1, 1]
+
+# 清空列表
+numbers.clear()
+print(numbers)  # 输出：[]</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">遍历列表</h4>
+                            <p class="text-gray-700 mb-2">我们可以使用for循环来遍历列表中的所有元素：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 遍历列表
+fruits = ["苹果", "香蕉", "橙子", "葡萄"]
+
+# 基本遍历
+for fruit in fruits:
+    print(fruit)
+
+# 使用enumerate()获取索引和值
+for index, fruit in enumerate(fruits):
+    print(f"索引 {index}: {fruit}")
+
+# 使用列表推导式
+numbers = [1, 2, 3, 4, 5]
+squares = [x ** 2 for x in numbers]
+print(squares)  # 输出：[1, 4, 9, 16, 25]
+
+# 带条件的列表推导式
+even_squares = [x ** 2 for x in numbers if x % 2 == 0]
+print(even_squares)  # 输出：[4, 16]</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">互动练习</h4>
+                            <p class="text-gray-700 mb-2">尝试在下面的代码编辑器中创建一个程序，使用列表和循环来解决以下问题：</p>
+                            <p class="text-gray-700 mb-2">创建一个包含10个随机整数的列表，然后：</p>
+                            <ol class="list-decimal pl-6 mb-4 text-gray-700">
+                                <li>打印列表中的所有元素</li>
+                                <li>计算列表中所有元素的和</li>
+                                <li>找出列表中的最大值和最小值</li>
+                                <li>创建一个新列表，只包含原列表中的偶数</li>
+                            </ol>
+                            
+                            <div class="bg-dark rounded-lg p-4 mb-4">
+                                <textarea class="w-full h-32 bg-dark text-white font-mono text-sm p-2 rounded" placeholder="# 在这里编写你的代码
+# 例如：创建随机整数列表并进行操作
+
+import random
+
+# 创建包含10个随机整数的列表（范围1-100）
+numbers = [random.randint(1, 100) for _ in range(10)]
+print("原始列表:", numbers)
+
+# 计算列表和
+# 找出最大值和最小值
+# 创建偶数列表"></textarea>
+                                <div class="flex justify-between mt-2">
+                                    <button class="bg-gray-600 text-white px-3 py-1 rounded text-sm">重置</button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">运行</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">运行结果将显示在这里</h5>
+                                <div class="min-h-16 bg-white border rounded p-2 font-mono text-sm text-gray-800"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                case 'strings':
+                    return `
+                        <div class="mb-6">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/5aef7760ae734260a8686f6596c9a949~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026030620554911D35E784C49E0ACC6AB&rrcfp=f06b921b&x-expires=1775393816&x-signature=uid1qGEWihKdAx7iKg2ajwYfomU%3D" alt="字符串" class="w-full max-w-md mx-auto mb-4 rounded-lg shadow-md">
+                            <h4 class="text-xl font-bold text-dark mb-3">什么是字符串？</h4>
+                            <p class="text-gray-700 mb-4">字符串是Python中用于表示文本的数据类型。它是由字符组成的序列，可以使用单引号、双引号或三引号来定义。</p>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">创建字符串</h4>
+                            <p class="text-gray-700 mb-2">Python中创建字符串的几种方式：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 创建字符串
+single_quoted = '这是一个字符串'
+double_quoted = "这也是一个字符串"
+triple_single = '''这是一个
+可以跨越多行的
+字符串'''
+triple_double = """这也是一个
+可以跨越多行的
+字符串"""
+
+print(single_quoted)
+print(double_quoted)
+print(triple_single)
+print(triple_double)</pre>
+                            </div>
+                            
+                            <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                                <h5 class="font-bold text-dark mb-2">注意事项：</h5>
+                                <p class="text-gray-700">在Python中，字符串是不可变的，这意味着一旦创建了字符串，就不能修改它的内容。如果需要修改，实际上是创建了一个新的字符串。</p>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">访问字符串中的字符</h4>
+                            <p class="text-gray-700 mb-2">我们可以使用索引来访问字符串中的单个字符，或使用切片来获取子字符串：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 访问字符串中的字符
+word = "Python"
+
+# 使用索引访问单个字符
+print(word[0])   # 输出：P
+print(word[1])   # 输出：y
+print(word[2])   # 输出：t
+print(word[-1])  # 输出：n（最后一个字符）
+print(word[-2])  # 输出：o（倒数第二个字符）
+
+# 使用切片获取子字符串
+print(word[0:2])   # 输出：Py
+print(word[2:5])   # 输出：tho
+print(word[:3])    # 输出：Pyt（从开始到索引2）
+print(word[3:])    # 输出：hon（从索引3到结束）
+print(word[::2])   # 输出：Pto（步长为2）
+print(word[::-1])  # 输出：nohtyP（反转字符串）</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">字符串操作</h4>
+                            <p class="text-gray-700 mb-2">Python提供了多种字符串操作：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 字符串连接
+greeting = "你好"
+name = "小明"
+message = greeting + "，" + name + "！"
+print(message)  # 输出：你好，小明！
+
+# 字符串重复
+stars = "*" * 10
+print(stars)  # 输出：**********
+
+# 字符串长度
+print(len(name))  # 输出：2
+
+# 检查子字符串
+print("明" in name)  # 输出：True
+print("红" in name)  # 输出：False
+
+# 字符串格式化
+# 方法1：使用format()方法
+age = 10
+message1 = "{}今年{}岁了。".format(name, age)
+print(message1)  # 输出：小明今年10岁了。
+
+# 方法2：使用f-string（Python 3.6+）
+message2 = f"{name}今年{age}岁了。"
+print(message2)  # 输出：小明今年10岁了。</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">字符串方法</h4>
+                            <p class="text-gray-700 mb-2">Python提供了许多有用的字符串方法：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 字符串方法示例
+text = "   Hello, Python World!   "
+
+# 大小写转换
+print(text.lower())    # 输出：   hello, python world!   
+print(text.upper())    # 输出：   HELLO, PYTHON WORLD!   
+print(text.title())    # 输出：   Hello, Python World!   
+print(text.capitalize())  # 输出：   hello, python world!   
+
+# 去除空白
+print(text.strip())    # 输出：Hello, Python World!
+print(text.lstrip())   # 输出：Hello, Python World!   
+print(text.rstrip())   # 输出：   Hello, Python World!
+
+# 查找和替换
+print(text.find("Python"))  # 输出：9（Python首次出现的索引）
+print(text.replace("Python", "Programming"))  # 输出：   Hello, Programming World!   
+
+# 分割和连接
+words = text.strip().split(", ")
+print(words)  # 输出：['Hello', 'Python World!']
+joined = "-".join(words)
+print(joined)  # 输出：Hello-Python World!
+
+# 检查字符串开头和结尾
+print(text.strip().startswith("Hello"))  # 输出：True
+print(text.strip().endswith("!"))  # 输出：True
+
+# 检查字符串类型
+print("123".isdigit())  # 输出：True
+print("abc".isalpha())  # 输出：True
+print("abc123".isalnum())  # 输出：True
+print("   ".isspace())  # 输出：True</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">字符串格式化的高级用法</h4>
+                            <p class="text-gray-700 mb-2">Python提供了多种字符串格式化的方法：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 字符串格式化的高级用法
+
+# 1. 使用format()方法
+# 位置参数
+print("{} {} {}".format("我", "爱", "Python"))  # 输出：我爱Python
+
+# 命名参数
+print("{subject} {verb} {object}".format(subject="我", verb="爱", object="Python"))  # 输出：我爱Python
+
+# 格式化数字
+pi = 3.14159265359
+print("π的值约为 {:.2f}".format(pi))  # 输出：π的值约为 3.14
+print("π的值约为 {:10.2f}".format(pi))  # 输出：π的值约为       3.14（总宽度为10）
+print("π的值约为 {:010.2f}".format(pi))  # 输出：π的值约为 0000003.14（用0填充）
+
+# 2. 使用f-string（Python 3.6+）
+name = "小明"
+age = 10
+height = 145.5
+
+print(f"{name}今年{age}岁了，身高{height}厘米。")  # 输出：小明今年10岁了，身高145.5厘米。
+
+# 在f-string中使用表达式
+print(f"{name}明年{age + 1}岁了。")  # 输出：小明明年11岁了。
+print(f"{'Python' * 3}")  # 输出：PythonPythonPython
+
+# 格式化数字
+print(f"π的值约为 {pi:.2f}")  # 输出：π的值约为 3.14
+print(f"π的值约为 {pi:10.2f}")  # 输出：π的值约为       3.14
+print(f"π的值约为 {pi:010.2f}")  # 输出：π的值约为 0000003.14</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">字符串转义字符</h4>
+                            <p class="text-gray-700 mb-2">在字符串中，我们可以使用反斜杠（\）来表示特殊字符：</p>
+                            
+                            <div class="code-block mb-4">
+                                <pre># 字符串转义字符
+print("这是一个换行符：\n第二行")
+print("这是一个制表符：\t缩进")
+print("这是一个反斜杠：\\")
+print("这是一个单引号：\'")
+print("这是一个双引号：\"")
+
+# 使用r前缀创建原始字符串（不解释转义字符）
+print(r"C:\Users\Name\Documents")  # 输出：C:\Users\Name\Documents</pre>
+                            </div>
+                            
+                            <h4 class="text-xl font-bold text-dark mb-3">互动练习</h4>
+                            <p class="text-gray-700 mb-2">尝试在下面的代码编辑器中创建一个程序，实现以下功能：</p>
+                            <ol class="list-decimal pl-6 mb-4 text-gray-700">
+                                <li>获取用户输入的一个句子</li>
+                                <li>统计句子中的单词数量</li>
+                                <li>统计句子中每个字母出现的次数</li>
+                                <li>将句子中的每个单词首字母大写</li>
+                                <li>检查句子是否以特定字符结尾</li>
+                            </ol>
+                            
+                            <div class="bg-dark rounded-lg p-4 mb-4">
+                                <textarea class="w-full h-32 bg-dark text-white font-mono text-sm p-2 rounded" placeholder="# 在这里编写你的代码
+# 例如：字符串处理程序
+
+# 获取用户输入
+sentence = input("请输入一个句子：")
+
+# 统计单词数量
+# 统计每个字母出现的次数
+# 将每个单词首字母大写
+# 检查句子结尾"></textarea>
+                                <div class="flex justify-between mt-2">
+                                    <button class="bg-gray-600 text-white px-3 py-1 rounded text-sm">重置</button>
+                                    <button class="bg-green-600 text-white px-3 py-1 rounded text-sm">运行</button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold mb-2">运行结果将显示在这里</h5>
+                                <div class="min-h-16 bg-white border rounded p-2 font-mono text-sm text-gray-800"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                default:
+                    return '<p>请选择一个学习主题。</p>';
+            }
+        }
+        
+        // 获取测试内容
+        function getTestContent() {
+            return `
+                <div class="mb-6">
+                    <p class="text-gray-700 mb-6">请回答以下问题，测试你对Python基础知识的掌握程度：</p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-dark mb-2">1. 在Python中，以下哪个是正确的变量命名？</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <input type="radio" id="q1a" name="q1" value="a">
+                                <label for="q1a">2variable</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q1b" name="q1" value="b">
+                                <label for="q1b">my_variable</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q1c" name="q1" value="c">
+                                <label for="q1c">if</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q1d" name="q1" value="d">
+                                <label for="q1d">variable-name</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-dark mb-2">2. 以下哪个运算符用于检查两个值是否相等？</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <input type="radio" id="q2a" name="q2" value="a">
+                                <label for="q2a">==</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q2b" name="q2" value="b">
+                                <label for="q2b">=</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q2c" name="q2" value="c">
+                                <label for="q2c">!=</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q2d" name="q2" value="d">
+                                <label for="q2d">===</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-dark mb-2">3. Python中，以下哪个不是基本数据类型？</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <input type="radio" id="q3a" name="q3" value="a">
+                                <label for="q3a">int</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q3b" name="q3" value="b">
+                                <label for="q3b">str</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q3c" name="q3" value="c">
+                                <label for="q3c">list</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q3d" name="q3" value="d">
+                                <label for="q3d">bool</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-dark mb-2">4. 以下哪个语句用于在循环中立即退出循环？</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <input type="radio" id="q4a" name="q4" value="a">
+                                <label for="q4a">continue</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q4b" name="q4" value="b">
+                                <label for="q4b">break</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q4c" name="q4" value="c">
+                                <label for="q4c">exit</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q4d" name="q4" value="d">
+                                <label for="q4d">stop</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold text-dark mb-2">5. 在Python中，字符串是可变的吗？</h4>
+                        <div class="space-y-2">
+                            <div>
+                                <input type="radio" id="q5a" name="q5" value="a">
+                                <label for="q5a">不是，字符串是不可变的</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q5b" name="q5" value="b">
+                                <label for="q5b">是，字符串是可变的</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q5c" name="q5" value="c">
+                                <label for="q5c">取决于字符串的长度</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="q5d" name="q5" value="d">
+                                <label for="q5d">以上都不对</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

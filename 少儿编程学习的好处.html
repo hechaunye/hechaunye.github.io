@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>少儿编程教育的科学依据与好处 - 为家长提供的数据支撑</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E88E5',
+                        secondary: '#FF9800',
+                        dark: '#0D47A1',
+                        light: '#E3F2FD',
+                        success: '#4CAF50',
+                        info: '#2196F3',
+                        warning: '#FFC107',
+                        danger: '#F44336'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'fade-in-down': 'fadeInDown 0.5s ease-out forwards',
+                        'fade-in-left': 'fadeInLeft 0.5s ease-out forwards',
+                        'fade-in-right': 'fadeInRight 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        fadeInDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        fadeInLeft: {
+                            '0%': { opacity: '0', transform: 'translateX(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        },
+                        fadeInRight: {
+                            '0%': { opacity: '0', transform: 'translateX(20px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .text-shadow-lg {
+                text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
+            }
+            .bg-gradient-blue {
+                background: linear-gradient(135deg, #1E88E5 0%, #0D47A1 100%);
+            }
+            .bg-gradient-orange {
+                background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+            }
+            .stat-number {
+                font-variant-numeric: tabular-nums;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0 flex items-center">
+                        <i class="fa fa-code text-primary text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-primary">少儿编程教育</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="#science" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">科学依据</a>
+                    <a href="#abilities" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">能力培养</a>
+                    <a href="#data" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">数据支撑</a>
+                    <a href="#cases" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">成功案例</a>
+                    <a href="#faq" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">常见问题</a>
+                    <a href="#guide" class="bg-primary hover:bg-dark text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">开始指南</a>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-primary focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#science" class="block text-gray-600 hover:text-primary px-3 py-2 rounded-md text-base font-medium">科学依据</a>
+                <a href="#abilities" class="block text-gray-600 hover:text-primary px-3 py-2 rounded-md text-base font-medium">能力培养</a>
+                <a href="#data" class="block text-gray-600 hover:text-primary px-3 py-2 rounded-md text-base font-medium">数据支撑</a>
+                <a href="#cases" class="block text-gray-600 hover:text-primary px-3 py-2 rounded-md text-base font-medium">成功案例</a>
+                <a href="#faq" class="block text-gray-600 hover:text-primary px-3 py-2 rounded-md text-base font-medium">常见问题</a>
+                <a href="#guide" class="block bg-primary hover:bg-dark text-white px-3 py-2 rounded-md text-base font-medium text-center mt-4">开始指南</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-blue text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0" data-aos="fade-right" data-aos-duration="1000">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-shadow-lg">
+                        让孩子赢在未来的<br><span class="text-secondary">编程教育</span>
+                    </h1>
+                    <p class="text-xl mb-8 text-blue-100 max-w-lg">
+                        科学研究表明，编程教育能显著提升孩子的逻辑思维、创造力和问题解决能力，为孩子的未来发展奠定坚实基础。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#science" class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-lg font-medium transition-colors duration-200 shadow-lg">
+                            了解科学依据
+                        </a>
+                        <a href="#guide" class="bg-secondary hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 shadow-lg">
+                            开始学习指南
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left" data-aos-duration="1000">
+                    <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-qvj2lq49k0/a989000a60444058b10eeafbc9f15526~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789372744&x-signature=DU1I7crRK7QNJ%2Bc8H0MbhZZPCT0%3D" alt="孩子们学习编程" class="rounded-lg shadow-2xl w-full h-auto object-cover">
+                </div>
+            </div>
+            
+            <!-- 核心数据亮点 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-6 text-center hover:bg-opacity-20 transition-all duration-300">
+                    <div class="text-4xl font-bold text-secondary mb-2 stat-number">78%</div>
+                    <div class="text-blue-100">全国中小学编程教育渗透率</div>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-6 text-center hover:bg-opacity-20 transition-all duration-300">
+                    <div class="text-4xl font-bold text-secondary mb-2 stat-number">0.61</div>
+                    <div class="text-blue-100">编程对儿童认知发展的促进效应量</div>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-6 text-center hover:bg-opacity-20 transition-all duration-300">
+                    <div class="text-4xl font-bold text-secondary mb-2 stat-number">800万+</div>
+                    <div class="text-blue-100">编程相关人才年缺口</div>
+                </div>
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-6 text-center hover:bg-opacity-20 transition-all duration-300">
+                    <div class="text-4xl font-bold text-secondary mb-2 stat-number">35%</div>
+                    <div class="text-blue-100">具备编程基础人才起薪优势</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 科学依据板块 -->
+    <section id="science" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">科学研究的有力支撑</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    多项权威研究表明，编程教育对儿童的认知发展、思维能力和未来竞争力有着显著的积极影响。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <div class="bg-light rounded-xl p-8 shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6 text-primary">认知发展关键期</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold mb-2">5-7岁是黄金启蒙期</h4>
+                                    <p class="text-gray-600">
+                                        研究表明，5-7岁是大脑前额叶发育的关键阶段，此时神经元连接速率达到峰值，对逻辑规则（如顺序、条件、循环）的接受度比8岁后提升40%以上。
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold mb-2">不可逆性优势</h4>
+                                    <p class="text-gray-600">
+                                        早期接触编程的儿童，在10岁后解决多步骤数学问题的效率比未接触者高27%，且空间想象能力测试得分显著提升。错过关键期后需付出3倍以上训练时间才能达到同等效果。
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold mb-2">元分析研究验证</h4>
+                                    <p class="text-gray-600">
+                                        华东师范大学对28项编程影响儿童个体发展的实验研究进行元分析，发现编程对儿童认知发展的合并效应量为0.61（中等偏上水平），能显著促进学生的认知发展、行为发展以及情感发展。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="p-6 bg-primary text-white">
+                            <h3 class="text-2xl font-bold">编程教育对儿童认知发展的影响</h3>
+                            <p class="mt-2">基于28项实验研究的元分析结果</p>
+                        </div>
+                        <div class="p-6">
+                            <canvas id="cognitiveChart" width="400" height="300"></canvas>
+                        </div>
+                        <div class="px-6 pb-6 text-sm text-gray-500 italic">
+                            数据来源：华东师范大学《编程真的能促进儿童的个体发展吗?——基于28项实验和准实验研究的元分析》
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 研究机构标识 -->
+            <div class="mt-20" data-aos="fade-up">
+                <h3 class="text-xl text-center text-gray-500 mb-8">权威研究机构支持</h3>
+                <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+                    <div class="grayscale hover:grayscale-0 transition-all duration-300">
+                        <div class="w-32 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500">华东师范大学</div>
+                    </div>
+                    <div class="grayscale hover:grayscale-0 transition-all duration-300">
+                        <div class="w-32 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500">北京师范大学</div>
+                    </div>
+                    <div class="grayscale hover:grayscale-0 transition-all duration-300">
+                        <div class="w-32 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500">教育部</div>
+                    </div>
+                    <div class="grayscale hover:grayscale-0 transition-all duration-300">
+                        <div class="w-32 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500">MIT Media Lab</div>
+                    </div>
+                    <div class="grayscale hover:grayscale-0 transition-all duration-300">
+                        <div class="w-32 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-500">Padova大学</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 能力培养板块 -->
+    <section id="abilities" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">编程培养孩子的核心能力</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    编程教育不仅教授技术技能，更重要的是培养孩子未来发展所需的关键能力和思维方式。
+                </p>
+            </div>
+            
+            <!-- 五大核心能力卡片 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6" data-aos="fade-up" data-aos-duration="1000">
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+                    <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-sitemap text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">逻辑思维</h3>
+                    <p class="text-gray-600">
+                        编程帮助孩子学习如何结构化思考，理解因果关系，培养逻辑推理能力，使孩子面对问题时能够有条理地分析和解决。
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+                    <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-lightbulb-o text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">创造力</h3>
+                    <p class="text-gray-600">
+                        编程是一种创造性表达的媒介，孩子通过设计和实现自己的项目，培养创新思维和表达能力，学会从不同角度思考问题。
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-puzzle-piece text-success text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">问题解决</h3>
+                    <p class="text-gray-600">
+                        编程过程中不断遇到和解决问题，培养孩子的韧性和解决问题的能力，学会将复杂问题分解为可管理的小问题。
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+                    <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-users text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">团队协作</h3>
+                    <p class="text-gray-600">
+                        编程项目通常需要团队协作，帮助孩子发展沟通能力，学习团队合作，理解不同的观点和思路。
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6 card-hover">
+                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-refresh text-red-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">持续学习</h3>
+                    <p class="text-gray-600">
+                        编程领域不断发展，培养孩子的自学能力和适应变化的能力，使他们能够终身学习和适应未来的挑战。
+                    </p>
+                </div>
+            </div>
+            
+            <!-- 互动式能力雷达图 -->
+            <div class="mt-20" data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 bg-primary text-white">
+                        <h3 class="text-2xl font-bold">不同年龄段编程培养的能力重点</h3>
+                        <p class="mt-2">选择孩子的年龄段，查看相应的能力培养重点</p>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex flex-wrap justify-center gap-4 mb-8">
+                            <button class="age-btn bg-primary text-white px-4 py-2 rounded-full" data-age="5-7">5-7岁</button>
+                            <button class="age-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full" data-age="8-10">8-10岁</button>
+                            <button class="age-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full" data-age="11-13">11-13岁</button>
+                            <button class="age-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full" data-age="14-16">14-16岁</button>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/2" style="height: 400px;">
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                            <div class="md:w-1/2 mt-8 md:mt-0 md:pl-8">
+                                <h4 class="text-xl font-bold mb-4" id="ageTitle">5-7岁：启蒙阶段</h4>
+                                <ul class="space-y-4" id="ageDescription">
+                                    <li class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-star-o text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">图形化思维：</span>
+                                            <span class="text-gray-600">通过积木式编程培养空间认知和图形思维能力</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-star-o text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">基础逻辑：</span>
+                                            <span class="text-gray-600">学习顺序、条件、循环等基本编程概念，培养逻辑思维</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-star-o text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">创造力：</span>
+                                            <span class="text-gray-600">通过创作简单的动画和游戏，激发想象力和创造力</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-star-o text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">问题解决：</span>
+                                            <span class="text-gray-600">在游戏设计中学习发现问题和解决问题的基本方法</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 年龄-能力对应表 -->
+            <div class="mt-16" data-aos="fade-up">
+                <h3 class="text-2xl font-bold text-center mb-8">编程学习阶段与能力发展对应表</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full bg-white rounded-lg shadow-lg">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th class="py-4 px-6 text-left">年龄段</th>
+                                <th class="py-4 px-6 text-left">推荐学习内容</th>
+                                <th class="py-4 px-6 text-left">主要培养能力</th>
+                                <th class="py-4 px-6 text-left">预期成果</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-4 px-6 font-medium">5-7岁</td>
+                                <td class="py-4 px-6">ScratchJr、大颗粒积木编程</td>
+                                <td class="py-4 px-6">图形思维、基础逻辑、创造力</td>
+                                <td class="py-4 px-6">简单动画、互动故事创作</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-4 px-6 font-medium">8-10岁</td>
+                                <td class="py-4 px-6">Scratch、机器人编程（乐高WeDo）</td>
+                                <td class="py-4 px-6">逻辑思维、问题解决、团队协作</td>
+                                <td class="py-4 px-6">小游戏设计、简单机器人控制</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-4 px-6 font-medium">11-13岁</td>
+                                <td class="py-4 px-6">Python、Arduino、机器人编程（VEX IQ）</td>
+                                <td class="py-4 px-6">算法思维、系统设计、创新能力</td>
+                                <td class="py-4 px-6">实用工具开发、机器人项目</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-4 px-6 font-medium">14-16岁</td>
+                                <td class="py-4 px-6">JavaScript、Java、C++、人工智能基础</td>
+                                <td class="py-4 px-6">计算思维、跨学科应用、项目管理</td>
+                                <td class="py-4 px-6">Web应用、移动应用、竞赛项目</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据可视化板块 -->
+    <section id="data" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">数据说话：编程教育的价值</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    透过数据了解编程教育对孩子未来发展的积极影响和广阔前景。
+                </p>
+            </div>
+            
+            <!-- 就业前景数据图表 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12" data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 bg-primary text-white">
+                        <h3 class="text-2xl font-bold">编程相关人才需求趋势</h3>
+                        <p class="mt-2">2020-2030年中国编程相关岗位需求预测</p>
+                    </div>
+                    <div class="p-6">
+                        <canvas id="jobMarketChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="px-6 pb-6 text-sm text-gray-500 italic">
+                        数据来源：中国青少年编程教育产业发展白皮书、人社部数据
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 bg-secondary text-white">
+                        <h3 class="text-2xl font-bold">编程技能薪资优势</h3>
+                        <p class="mt-2">具备编程基础的人才vs单一技能人才薪资对比</p>
+                    </div>
+                    <div class="p-6">
+                        <canvas id="salaryChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="px-6 pb-6 text-sm text-gray-500 italic">
+                        数据来源：LinkedIn数据、中国青少年编程教育产业发展白皮书
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 政策支持地图 -->
+            <div class="mt-16" data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 bg-primary text-white">
+                        <h3 class="text-2xl font-bold">全国编程教育政策支持情况</h3>
+                        <p class="mt-2">各地区编程教育政策覆盖率</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-light rounded-lg p-4 text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">95%</div>
+                                <div class="text-gray-600">一线城市</div>
+                            </div>
+                            <div class="bg-light rounded-lg p-4 text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">85%</div>
+                                <div class="text-gray-600">二线城市</div>
+                            </div>
+                            <div class="bg-light rounded-lg p-4 text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">62%</div>
+                                <div class="text-gray-600">县域地区</div>
+                            </div>
+                            <div class="bg-light rounded-lg p-4 text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">88%</div>
+                                <div class="text-gray-600">科技特长生政策覆盖</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="text-lg font-semibold mb-4">重点政策支持</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                        <i class="fa fa-file-text-o text-sm"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <span class="font-medium">《新一代人工智能发展规划》：</span>
+                                        <span class="text-gray-600">教育部提出"在中小学阶段设置人工智能相关课程，逐步推广编程教育"</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                        <i class="fa fa-file-text-o text-sm"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <span class="font-medium">《中小学人工智能通识教育指南》：</span>
+                                        <span class="text-gray-600">将编程能力纳入综合素质评价体系</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                        <i class="fa fa-file-text-o text-sm"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <span class="font-medium">北京、上海编程必修课：</span>
+                                        <span class="text-gray-600">率先实现每周2课时编程必修课全覆盖</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 核心数据卡片 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-gradient-blue text-white rounded-xl shadow-lg p-6">
+                    <div class="text-4xl font-bold mb-2 stat-number">1100亿</div>
+                    <div class="text-blue-100 mb-4">2025年编程教育市场规模预测</div>
+                    <div class="text-sm text-blue-200">
+                        <i class="fa fa-arrow-up mr-1"></i> 年增长率38.2%
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-orange text-white rounded-xl shadow-lg p-6">
+                    <div class="text-4xl font-bold mb-2 stat-number">2100万</div>
+                    <div class="text-orange-100 mb-4">2024年数字化人才缺口</div>
+                    <div class="text-sm text-orange-200">
+                        <i class="fa fa-arrow-up mr-1"></i> 预计2027年将突破3000万
+                    </div>
+                </div>
+                
+                <div class="bg-green-600 text-white rounded-xl shadow-lg p-6">
+                    <div class="text-4xl font-bold mb-2 stat-number">61%</div>
+                    <div class="text-green-100 mb-4">科技特长生招生中编程竞赛获奖者占比</div>
+                    <div class="text-sm text-green-200">
+                        <i class="fa fa-check-circle mr-1"></i> 北京75所重点中学将编程竞赛成绩作为招生硬指标
+                    </div>
+                </div>
+                
+                <div class="bg-purple-600 text-white rounded-xl shadow-lg p-6">
+                    <div class="text-4xl font-bold mb-2 stat-number">85%</div>
+                    <div class="text-purple-100 mb-4">2025年全国中小学编程课程覆盖率</div>
+                    <div class="text-sm text-purple-200">
+                        <i class="fa fa-arrow-up mr-1"></i> 较2020年提升2.4倍
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成功案例展示 -->
+    <section id="cases" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">编程教育的成功案例</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    看看那些通过编程教育获得成功的孩子们，他们的故事或许能给您和孩子带来启发。
+                </p>
+            </div>
+            
+            <!-- 学生成就故事 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1725116280727142414~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789372744&x-signature=xl35Iq7BiTWIYTp%2BAoq2K%2F8B9fQ%3D" alt="小明的故事" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">小明的AI医疗诊断系统</h3>
+                        <p class="text-gray-600 mb-4">
+                            18岁的小明通过多年编程学习，独立开发了一款基于AI的医疗影像辅助诊断系统，获得了全国青少年科技创新大赛一等奖，并被清华大学提前录取。
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fa fa-trophy text-yellow-500 mr-2"></i>
+                            <span>清华大学录取 | 科技创新大赛一等奖</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1725278055015645221~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789372744&x-signature=ea%2FV8jkMEa%2FCbqdiCabrO0qsKwU%3D" alt="小红的故事" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">小红的环保机器人项目</h3>
+                        <p class="text-gray-600 mb-4">
+                            14岁的小红和她的团队开发了一款智能垃圾分类机器人，在VEX机器人大赛中获得中国区冠军，并获得了联合国环保项目的资助。
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fa fa-trophy text-yellow-500 mr-2"></i>
+                            <span>VEX机器人大赛中国区冠军 | 联合国环保项目资助</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/2322329851119796228~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1789372744&x-signature=YOz68WOmEPqdaSyQnAEBXzkKJn8%3D" alt="小华的故事" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">小华的3D打印创新</h3>
+                        <p class="text-gray-600 mb-4">
+                            12岁的小华通过编程控制3D打印机，设计并制造了一款适合老年人使用的辅助餐具，获得了国际青少年发明展览会金奖。
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fa fa-trophy text-yellow-500 mr-2"></i>
+                            <span>国际青少年发明展览会金奖 | 申请国家专利</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 竞赛获奖数据 -->
+            <div class="mt-20" data-aos="fade-up">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 bg-primary text-white">
+                        <h3 class="text-2xl font-bold">编程教育学生竞赛获奖情况</h3>
+                        <p class="mt-2">基于2024-2025年全国及国际赛事数据</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <canvas id="competitionChart" width="400" height="300"></canvas>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-semibold mb-4">主要竞赛及升学优势</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-trophy text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">信息学奥赛（NOI）：</span>
+                                            <span class="text-gray-600">获奖者可获得清华、北大等高校降分30-60分录取资格</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-trophy text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">VEX机器人大赛：</span>
+                                            <span class="text-gray-600">获奖者在综合评价招生中可获得10-60分加分</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-trophy text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">蓝桥杯：</span>
+                                            <span class="text-gray-600">教育部白名单赛事，获奖者在科技特长生招生中具有显著优势</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fa fa-trophy text-sm"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <span class="font-medium">世界机器人大赛：</span>
+                                            <span class="text-gray-600">国际级赛事，获奖者可获得知名高校自主招生资格</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-8 p-4 bg-light rounded-lg">
+                                    <div class="flex items-center">
+                                        <i class="fa fa-lightbulb-o text-secondary text-2xl mr-3"></i>
+                                        <div>
+                                            <h5 class="font-semibold">重要发现</h5>
+                                            <p class="text-gray-600 text-sm">
+                                                数据显示，有编程竞赛获奖经历的学生在大学自主招生中录取率高出普通考生2.3倍，且在专业选择上具有更大优势。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 家长感言 -->
+
+        </div>
+    </section>
+
+    <!-- 常见问题解答 -->
+    <section id="faq" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">家长常见问题解答</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    我们收集了家长们最关心的问题，并提供科学、专业的解答，帮助您更好地了解少儿编程教育。
+                </p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto" data-aos="fade-up">
+                <div class="space-y-6">
+                    <div class="bg-light rounded-xl shadow-sm overflow-hidden">
+                        <button class="faq-toggle w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                            <h3 class="text-xl font-semibold">孩子多大开始学习编程最合适？</h3>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6">
+                            <p class="text-gray-600">
+                                根据儿童认知发展规律和科学研究，5-7岁是开始接触编程的理想年龄。这个阶段是大脑前额叶发育的关键期，孩子对逻辑规则的接受度比8岁后提升40%以上。对于5-7岁的孩子，可以从图形化编程（如ScratchJr）开始，通过积木式拖拽的方式学习基本编程概念。随着年龄增长，可以逐步过渡到更复杂的编程工具和语言。
+                            </p>
+                            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fa fa-info-circle text-primary mr-2"></i>
+                                    <p class="text-sm text-primary">
+                                        早期接触编程的儿童，在10岁后解决多步骤数学问题的效率比未接触者高27%，且空间想象能力测试得分显著提升。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light rounded-xl shadow-sm overflow-hidden">
+                        <button class="faq-toggle w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                            <h3 class="text-xl font-semibold">孩子没有数学基础能学习编程吗？</h3>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6">
+                            <p class="text-gray-600">
+                                当然可以。对于初学者，特别是年龄较小的孩子，编程学习并不需要深厚的数学基础。图形化编程（如Scratch）使用积木式界面，通过拖拽组合就能学习基本的编程概念。这些工具设计得非常友好，适合没有编程和数学基础的孩子入门。
+
+                                实际上，编程学习反而能帮助孩子提升数学能力。研究表明，持续学习编程的儿童数学应用题正确率比对照组高29%，尤其在逻辑推理类题目中优势显著。随着孩子编程能力的提升，他们会自然地接触到更多数学概念，如坐标、变量、循环等，这会反过来促进他们的数学学习。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light rounded-xl shadow-sm overflow-hidden">
+                        <button class="faq-toggle w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                            <h3 class="text-xl font-semibold">学习编程对孩子升学有什么帮助？</h3>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6">
+                            <p class="text-gray-600">
+                                学习编程对孩子的升学有多方面的帮助：
+
+                                1. <strong>科技特长生政策</strong>：目前科技特长生政策已覆盖全国88%省市，北京75所重点中学将编程竞赛成绩作为招生硬指标。有编程竞赛获奖经历的学生可以获得降分录取的机会。
+
+                                2. <strong>自主招生优势</strong>：清华、北大等高校自主招生中，有编程项目经历或竞赛获奖的学生录取率高出普通考生2.3倍。
+
+                                3. <strong>综合素质评价</strong>：教育部《中小学人工智能通识教育指南》明确将编程能力纳入综合素质评价体系，这对孩子的升学评估有积极影响。
+
+                                4. <strong>专业选择优势</strong>：具备编程基础的学生在大学专业选择上有更大优势，特别是计算机、人工智能、大数据等热门专业。
+
+                                5. <strong>跨学科能力</strong>：编程培养的逻辑思维和问题解决能力有助于孩子在其他学科取得更好成绩，全面提升学业表现。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light rounded-xl shadow-sm overflow-hidden">
+                        <button class="faq-toggle w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                            <h3 class="text-xl font-semibold">编程教育的费用投入如何？回报如何？</h3>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6">
+                            <p class="text-gray-600">
+                                编程教育的费用因课程类型、教学方式和地区而异。一般来说，线下编程培训机构的课程费用在每节课100-300元不等，线上课程相对便宜一些。机器人编程由于需要硬件设备，费用可能会更高一些。
+
+                                从长期回报来看，编程教育的投资回报率非常高：
+
+                                1. <strong>就业优势</strong>：LinkedIn数据显示，具备编程基础的跨学科人才起薪比单一技能者高35%，且职业晋升速度快22%。
+
+                                2. <strong>升学优势</strong>：有编程竞赛获奖经历的学生在大学自主招生中录取率高出普通考生2.3倍，可获得降分录取资格。
+
+                                3. <strong>能力提升</strong>：编程培养的逻辑思维、问题解决能力等核心素养对孩子终身发展有益，这些能力可以迁移到各个领域。
+
+                                4. <strong>未来竞争力</strong>：随着人工智能和数字化转型的深入，编程能力将成为未来社会的基础生存技能，提前掌握这一技能将使孩子在未来竞争中占据优势。
+
+                                总体而言，编程教育是一种面向未来的教育投资，其回报不仅体现在短期的学业成就上，更体现在长期的职业发展和个人能力提升上。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light rounded-xl shadow-sm overflow-hidden">
+                        <button class="faq-toggle w-full flex justify-between items-center p-6 text-left focus:outline-none">
+                            <h3 class="text-xl font-semibold">如何选择适合孩子的编程课程和机构？</h3>
+                            <i class="fa fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden px-6 pb-6">
+                            <p class="text-gray-600">
+                                选择适合孩子的编程课程和机构需要考虑以下几个因素：
+
+                                1. <strong>年龄适配性</strong>：根据孩子的年龄选择合适的课程内容和教学方式。5-7岁适合图形化编程（如ScratchJr），8-10岁可以学习Scratch和简单的机器人编程，11岁以上可以开始学习Python等文本编程语言。
+
+                                2. <strong>教学理念</strong>：选择注重培养孩子思维能力和创造力的机构，而不仅仅是教授编程技能。好的编程教育应该注重项目式学习和问题解决能力的培养。
+
+                                3. <strong>师资力量</strong>：了解教师的专业背景和教学经验，最好选择有计算机相关专业背景且有教学经验的老师。
+
+                                4. <strong>课程体系</strong>：选择有完整课程体系的机构，课程应该有明确的学习目标和进阶路径，能够持续激发孩子的学习兴趣。
+
+                                5. <strong>硬件设施</strong>：如果选择机器人编程，需要了解机构的硬件设施是否齐全、先进。
+
+                                6. <strong>口碑和评价</strong>：可以通过网络评价、朋友推荐等方式了解机构的口碑和教学质量。
+
+                                7. <strong>试听课</strong>：在决定前，最好让孩子参加试听课，观察孩子的兴趣和适应情况。
+
+                                8. <strong>赛事资源</strong>：如果有升学需求，可以选择有丰富赛事资源和获奖经验的机构，这对孩子参加编程竞赛有帮助。
+
+                                最后，家长应该根据孩子的兴趣和特点选择合适的课程，不要盲目跟风。编程教育的核心是培养孩子的思维能力和创造力，而不仅仅是编程技能本身。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 行动指南板块 -->
+    <section id="guide" class="py-16 md:py-24 bg-gradient-blue text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">开始编程学习的行动指南</h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                    为您和孩子提供清晰的编程学习路径和资源推荐，帮助孩子顺利开启编程之旅。
+                </p>
+            </div>
+            
+            <!-- 学习路径图 -->
+            <div class="max-w-4xl mx-auto mb-16" data-aos="fade-up">
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-8">
+                    <h3 class="text-2xl font-bold mb-8 text-center">少儿编程学习路径图</h3>
+                    
+                    <div class="relative">
+                        <!-- 路径线 -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-300 bg-opacity-50"></div>
+                        
+                        <!-- 阶段1 -->
+                        <div class="relative z-10 mb-12">
+                            <div class="flex items-center">
+                                <div class="w-1/2 pr-8 text-right">
+                                    <h4 class="text-xl font-bold text-secondary">启蒙阶段 (5-7岁)</h4>
+                                    <p class="mt-2 text-blue-100">图形化编程入门，培养兴趣和基础思维</p>
+                                </div>
+                                <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="font-bold">1</span>
+                                </div>
+                                <div class="w-1/2 pl-8">
+                                    <ul class="space-y-2 text-blue-100">
+                                        <li>• ScratchJr图形化编程</li>
+                                        <li>• 大颗粒积木编程</li>
+                                        <li>• 简单动画和故事创作</li>
+                                        <li>• 基础逻辑概念学习</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 阶段2 -->
+                        <div class="relative z-10 mb-12">
+                            <div class="flex items-center">
+                                <div class="w-1/2 pr-8 text-right">
+                                    <ul class="space-y-2 text-blue-100">
+                                        <li>• Scratch编程进阶</li>
+                                        <li>• 机器人编程基础</li>
+                                        <li>• 小游戏设计与开发</li>
+                                        <li>• 算法思维初步培养</li>
+                                    </ul>
+                                </div>
+                                <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="font-bold">2</span>
+                                </div>
+                                <div class="w-1/2 pl-8">
+                                    <h4 class="text-xl font-bold text-secondary">基础阶段 (8-10岁)</h4>
+                                    <p class="mt-2 text-blue-100">深入学习编程概念，培养问题解决能力</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 阶段3 -->
+                        <div class="relative z-10 mb-12">
+                            <div class="flex items-center">
+                                <div class="w-1/2 pr-8 text-right">
+                                    <h4 class="text-xl font-bold text-secondary">进阶阶段 (11-13岁)</h4>
+                                    <p class="mt-2 text-blue-100">学习文本编程，开发实用项目</p>
+                                </div>
+                                <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="font-bold">3</span>
+                                </div>
+                                <div class="w-1/2 pl-8">
+                                    <ul class="space-y-2 text-blue-100">
+                                        <li>• Python编程语言</li>
+                                        <li>• Arduino电子编程</li>
+                                        <li>• 数据结构与算法基础</li>
+                                        <li>• 实用工具和应用开发</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 阶段4 -->
+                        <div class="relative z-10">
+                            <div class="flex items-center">
+                                <div class="w-1/2 pr-8 text-right">
+                                    <ul class="space-y-2 text-blue-100">
+                                        <li>• JavaScript/Java/C++</li>
+                                        <li>• 人工智能与机器学习基础</li>
+                                        <li>• 大型项目开发</li>
+                                        <li>• 参加编程竞赛</li>
+                                    </ul>
+                                </div>
+                                <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="font-bold">4</span>
+                                </div>
+                                <div class="w-1/2 pl-8">
+                                    <h4 class="text-xl font-bold text-secondary">专业阶段 (14-16岁)</h4>
+                                    <p class="mt-2 text-blue-100">掌握高级编程技能，准备大学和职业发展</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 资源推荐 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up">
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 hover:bg-opacity-20 transition-all duration-300">
+                    <div class="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-code text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">推荐编程工具</h3>
+                    <ul class="space-y-3 text-blue-100">
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>ScratchJr</strong> (5-7岁) - 专为幼儿设计的图形化编程工具</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>Scratch</strong> (8-10岁) - 最流行的儿童图形化编程平台</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>Python</strong> (11岁+) - 易学易用的文本编程语言</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>Arduino</strong> (11岁+) - 开源电子原型平台</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>乐高WeDo/VEX</strong> - 机器人编程套件</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 hover:bg-opacity-20 transition-all duration-300">
+                    <div class="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-book text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">学习资源推荐</h3>
+                    <ul class="space-y-3 text-blue-100">
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>编程猫</strong> - 适合中国孩子的编程学习平台</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>Code.org</strong> - 全球知名的编程教育网站</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>少儿编程网</strong> - 丰富的编程学习资源和教程</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>教育部编程教育资源平台</strong> - 官方推荐的学习资源</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>编程竞赛网</strong> - 竞赛信息和备赛资源</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 hover:bg-opacity-20 transition-all duration-300">
+                    <div class="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa fa-trophy text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">推荐参加的竞赛</h3>
+                    <ul class="space-y-3 text-blue-100">
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>信息学奥赛（NOI）</strong> - 权威的计算机科学竞赛</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>VEX机器人大赛</strong> - 国际级机器人竞赛</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>蓝桥杯青少年编程大赛</strong> - 教育部白名单赛事</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>世界机器人大赛</strong> - 高水平国际赛事</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-check-circle text-secondary mt-1 mr-2"></i>
+                            <span><strong>全国青少年科技创新大赛</strong> - 综合性科技竞赛</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 编程教育价值总结 -->
+            <div class="mt-16 text-center" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-6">编程教育的核心价值</h3>
+                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                    编程教育不仅是技术学习，更是思维培养和能力提升的过程。无论孩子未来选择何种职业道路，编程学习培养的逻辑思维、问题解决能力和创造力都将使他们终身受益。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 页脚留空 -->
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary hover:bg-dark text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 invisible">
+        <i class="fa fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 初始化AOS动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // 导航栏滚动效果
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('py-2');
+                    navbar.classList.remove('py-4');
+                } else {
+                    navbar.classList.add('py-4');
+                    navbar.classList.remove('py-2');
+                }
+            });
+            
+            // 移动端菜单
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // FAQ切换
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+            
+            faqToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+            
+            // 返回顶部按钮
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        
+                        // 关闭移动端菜单
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+            
+            // 认知发展图表
+            const cognitiveCtx = document.getElementById('cognitiveChart').getContext('2d');
+            const cognitiveChart = new Chart(cognitiveCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['认知发展', '行为发展', '情感发展', '整体发展'],
+                    datasets: [{
+                        label: '效应量',
+                        data: [0.68, 0.55, 0.52, 0.61],
+                        backgroundColor: [
+                            'rgba(30, 136, 229, 0.7)',
+                            'rgba(255, 152, 0, 0.7)',
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(156, 39, 176, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(30, 136, 229, 1)',
+                            'rgba(255, 152, 0, 1)',
+                            'rgba(76, 175, 80, 1)',
+                            'rgba(156, 39, 176, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            title: {
+                                display: true,
+                                text: '效应量（值越大影响越显著）'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed.y.toFixed(2);
+                                    
+                                    // 添加解释文本
+                                    const interpretations = [
+                                        '效应量0.68表示编程对认知发展有较大促进作用',
+                                        '效应量0.55表示编程对行为发展有中等促进作用',
+                                        '效应量0.52表示编程对情感发展有中等促进作用',
+                                        '效应量0.61表示编程对整体发展有较大促进作用'
+                                    ];
+                                    
+                                    return [label, interpretations[context.dataIndex]];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 能力雷达图
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            
+            // 不同年龄段的能力数据
+            const ageData = {
+                '5-7': {
+                    title: '5-7岁：启蒙阶段',
+                    description: [
+                        { icon: 'fa-star-o', title: '图形化思维：', text: '通过积木式编程培养空间认知和图形思维能力' },
+                        { icon: 'fa-star-o', title: '基础逻辑：', text: '学习顺序、条件、循环等基本编程概念，培养逻辑思维' },
+                        { icon: 'fa-star-o', title: '创造力：', text: '通过创作简单的动画和游戏，激发想象力和创造力' },
+                        { icon: 'fa-star-o', title: '问题解决：', text: '在游戏设计中学习发现问题和解决问题的基本方法' }
+                    ],
+                    radarData: {
+                        labels: ['逻辑思维', '创造力', '问题解决', '团队协作', '持续学习'],
+                        datasets: [{
+                            label: '能力发展重点',
+                            data: [60, 85, 50, 40, 30],
+                            backgroundColor: 'rgba(30, 136, 229, 0.2)',
+                            borderColor: 'rgba(30, 136, 229, 1)',
+                            pointBackgroundColor: 'rgba(30, 136, 229, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(30, 136, 229, 1)'
+                        }]
+                    }
+                },
+                '8-10': {
+                    title: '8-10岁：基础阶段',
+                    description: [
+                        { icon: 'fa-star-o', title: '算法思维：', text: '学习更复杂的算法概念，如递归、排序等' },
+                        { icon: 'fa-star-o', title: '问题分解：', text: '学会将复杂问题分解为可管理的小问题' },
+                        { icon: 'fa-star-o', title: '团队协作：', text: '通过小组项目培养协作能力和沟通能力' },
+                        { icon: 'fa-star-o', title: '调试能力：', text: '学习系统排查错误和优化程序的方法' }
+                    ],
+                    radarData: {
+                        labels: ['逻辑思维', '创造力', '问题解决', '团队协作', '持续学习'],
+                        datasets: [{
+                            label: '能力发展重点',
+                            data: [75, 70, 70, 65, 50],
+                            backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                            borderColor: 'rgba(255, 152, 0, 1)',
+                            pointBackgroundColor: 'rgba(255, 152, 0, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(255, 152, 0, 1)'
+                        }]
+                    }
+                },
+                '11-13': {
+                    title: '11-13岁：进阶阶段',
+                    description: [
+                        { icon: 'fa-star-o', title: '系统设计：', text: '学习设计和开发完整的软件系统' },
+                        { icon: 'fa-star-o', title: '数据结构：', text: '掌握基本数据结构和算法原理' },
+                        { icon: 'fa-star-o', title: '跨学科应用：', text: '将编程应用到数学、物理等其他学科' },
+                        { icon: 'fa-star-o', title: '项目管理：', text: '学习规划和管理复杂项目的能力' }
+                    ],
+                    radarData: {
+                        labels: ['逻辑思维', '创造力', '问题解决', '团队协作', '持续学习'],
+                        datasets: [{
+                            label: '能力发展重点',
+                            data: [85, 65, 80, 75, 70],
+                            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                            borderColor: 'rgba(76, 175, 80, 1)',
+                            pointBackgroundColor: 'rgba(76, 175, 80, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(76, 175, 80, 1)'
+                        }]
+                    }
+                },
+                '14-16': {
+                    title: '14-16岁：专业阶段',
+                    description: [
+                        { icon: 'fa-star-o', title: '高级编程：', text: '掌握多种编程语言和高级编程技术' },
+                        { icon: 'fa-star-o', title: '人工智能：', text: '学习机器学习和人工智能基础' },
+                        { icon: 'fa-star-o', title: '创新能力：', text: '开发具有创新性和实用性的项目' },
+                        { icon: 'fa-star-o', title: '职业规划：', text: '了解编程相关职业和发展路径' }
+                    ],
+                    radarData: {
+                        labels: ['逻辑思维', '创造力', '问题解决', '团队协作', '持续学习'],
+                        datasets: [{
+                            label: '能力发展重点',
+                            data: [90, 80, 85, 80, 90],
+                            backgroundColor: 'rgba(156, 39, 176, 0.2)',
+                            borderColor: 'rgba(156, 39, 176, 1)',
+                            pointBackgroundColor: 'rgba(156, 39, 176, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(156, 39, 176, 1)'
+                        }]
+                    }
+                }
+            };
+            
+            // 创建雷达图
+            let radarChart = new Chart(radarCtx, {
+                type: 'radar',
+                data: ageData['5-7'].radarData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+            
+            // 年龄按钮点击事件
+            const ageButtons = document.querySelectorAll('.age-btn');
+            const ageTitle = document.getElementById('ageTitle');
+            const ageDescription = document.getElementById('ageDescription');
+            
+            ageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const age = this.getAttribute('data-age');
+                    
+                    // 更新按钮样式
+                    ageButtons.forEach(btn => {
+                        btn.classList.remove('bg-primary', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    this.classList.add('bg-primary', 'text-white');
+                    
+                    // 更新标题和描述
+                    ageTitle.textContent = ageData[age].title;
+                    
+                    // 更新描述列表
+                    ageDescription.innerHTML = '';
+                    ageData[age].description.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-start';
+                        li.innerHTML = `
+                            <div class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fa ${item.icon} text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <span class="font-medium">${item.title}</span>
+                                <span class="text-gray-600">${item.text}</span>
+                            </div>
+                        `;
+                        ageDescription.appendChild(li);
+                    });
+                    
+                    // 更新雷达图
+                    radarChart.data = ageData[age].radarData;
+                    radarChart.update();
+                });
+            });
+            
+            // 就业市场图表
+            const jobMarketCtx = document.getElementById('jobMarketChart').getContext('2d');
+            const jobMarketChart = new Chart(jobMarketCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                    datasets: [{
+                        label: '编程相关岗位需求（万）',
+                        data: [450, 520, 610, 720, 850, 980, 1120, 1280, 1450, 1620, 1800],
+                        backgroundColor: 'rgba(30, 136, 229, 0.1)',
+                        borderColor: 'rgba(30, 136, 229, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: '传统IT岗位需求（万）',
+                        data: [1200, 1250, 1290, 1320, 1350, 1380, 1410, 1440, 1470, 1500, 1530],
+                        backgroundColor: 'rgba(158, 158, 158, 0.1)',
+                        borderColor: 'rgba(158, 158, 158, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '岗位需求量（万个）'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+            
+            // 薪资对比图表
+            const salaryCtx = document.getElementById('salaryChart').getContext('2d');
+            const salaryChart = new Chart(salaryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['应届生', '1-3年经验', '3-5年经验', '5-10年经验', '10年以上经验'],
+                    datasets: [{
+                        label: '具备编程基础',
+                        data: [12000, 18000, 25000, 35000, 50000],
+                        backgroundColor: 'rgba(255, 152, 0, 0.7)',
+                        borderColor: 'rgba(255, 152, 0, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: '单一技能',
+                        data: [8900, 13300, 18500, 25900, 37300],
+                        backgroundColor: 'rgba(158, 158, 158, 0.7)',
+                        borderColor: 'rgba(158, 158, 158, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '月薪（元）'
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed.y.toLocaleString() + '元';
+                                    
+                                    // 计算薪资差异百分比
+                                    if (context.datasetIndex === 0) {
+                                        const singleSkillSalary = context.chart.data.datasets[1].data[context.dataIndex];
+                                        const diff = ((context.parsed.y - singleSkillSalary) / singleSkillSalary * 100).toFixed(1);
+                                        label += ` (高${diff}%)`;
+                                    }
+                                    
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 竞赛获奖图表
+            const competitionCtx = document.getElementById('competitionChart').getContext('2d');
+            const competitionChart = new Chart(competitionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['信息学奥赛', 'VEX机器人大赛', '蓝桥杯', '世界机器人大赛', '其他竞赛'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: [
+                            'rgba(30, 136, 229, 0.7)',
+                            'rgba(255, 152, 0, 0.7)',
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(156, 39, 176, 0.7)',
+                            'rgba(158, 158, 158, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(30, 136, 229, 1)',
+                            'rgba(255, 152, 0, 1)',
+                            'rgba(76, 175, 80, 1)',
+                            'rgba(156, 39, 176, 1)',
+                            'rgba(158, 158, 158, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${percentage}% (${value}人)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

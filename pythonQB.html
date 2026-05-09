@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026数字守艺人-Python模拟练习系统</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e67e22;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --bg-color: #f4f7f6;
+        }
+        body { font-family: 'PingFang SC', sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; color: var(--primary-color); }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 30px; }
+        .paper-card { background: #fff; border: 2px solid #eee; padding: 15px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .paper-card:hover { border-color: var(--secondary-color); transform: translateY(-3px); }
+        .question-box { margin-bottom: 25px; padding: 20px; border: 1px solid #eee; border-radius: 8px; }
+        .options label { display: block; margin: 12px 0; padding: 12px; background: #f9f9f9; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .options label:hover { background: #f0f0f0; }
+        .options input { margin-right: 12px; transform: scale(1.2); }
+        .btn { display: block; width: 100%; padding: 15px; background: var(--secondary-color); color: white; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 20px; }
+        .result-panel { display: none; text-align: center; padding: 25px; border: 3px solid var(--success-color); border-radius: 10px; margin-bottom: 30px; background: #f0fff4; }
+        .analysis { margin-top: 15px; padding: 12px; background: #fff9f0; border-left: 5px solid var(--secondary-color); font-size: 0.95em; color: #555; }
+        .correct { border: 2px solid var(--success-color) !important; background: #f1fcf4 !important; }
+        .wrong { border: 2px solid var(--error-color) !important; background: #fff5f5 !important; }
+        .hidden { display: none; }
+        .nav-bar { margin-bottom: 20px; cursor: pointer; color: var(--secondary-color); font-weight: bold; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: white; margin-bottom: 8px; }
+        .tag-choice { background: #3498db; }
+        .tag-tf { background: #9b59b6; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="nav" class="nav-bar hidden" onclick="showMenu()">← 返回试卷列表</div>
+    <div id="menu">
+        <h1>数字守艺人 Python 初赛模拟题库</h1>
+        <p style="text-align:center; color:#666;">（全套共5卷，涵盖基础语法、列表、字典、函数及综合应用）</p>
+        <div class="menu-grid">
+            <div class="paper-card" onclick="startQuiz(0)"><h3>模拟卷（一）</h3><p>基础与注释</p></div>
+            <div class="paper-card" onclick="startQuiz(1)"><h3>模拟卷（二）</h3><p>数据类型与切片</p></div>
+            <div class="paper-card" onclick="startQuiz(2)"><h3>模拟卷（三）</h3><p>逻辑运算与循环</p></div>
+            <div class="paper-card" onclick="startQuiz(3)"><h3>模拟卷（四）</h3><p>字典与字符串格式化</p></div>
+            <div class="paper-card" onclick="startQuiz(4)"><h3>模拟卷（五）</h3><p>综合实战与模块</p></div>
+        </div>
+    </div>
+    <div id="quiz-area" class="hidden">
+        <h2 id="paper-title" style="color:var(--primary-color)"></h2>
+        <div id="result-summary" class="result-panel"></div>
+        <form id="quiz-form"></form>
+        <button class="btn" id="submit-btn" onclick="submitAnswers()">提交并阅卷</button>
+    </div>
+</div>
+<script>
+    const papers = [
+        {
+            title: "2026年信息素养大赛“数字守艺人”Python 模拟卷（一）",
+            questions: [
+                { q: "pottery = ['揉泥','拉坯','印坯','捺水','画坯'], 执行 print(pottery[0]) 的结果是?", options: ["揉泥", "拉坯", "捺水", "画坯"], ans: 0, analysis: "Python 列表索引从0开始，pottery[0]指向第一个元素。[cite: 1]" },
+                { q: "action='影戏千秋'; print(len(action)) 的输出结果是?", options: ["2", "4", "8", "16"], ans: 1, analysis: "len()计算字符串长度，“影戏千秋”包含4个中文字符。[cite: 1]" },
+                { q: "下列哪个变量名命名是合法的?", options: ["2_color", "if", "silk_color", "silk color"], ans: 2, analysis: "不能以数字开头，不能是关键字，不能包含空格。[cite: 1]" },
+                { q: "宣纸的长为a, 宽为b。计算宣纸面积的表达式是?", options: ["a + b", "a*b", "a/b"], ans: 1, analysis: "Python中*表示乘法。[cite: 1]" },
+                { q: "pattern = ['云纹','雷纹','水纹']; pattern.append('凤纹'); print(pattern) 结果是?", options: ["['云纹','雷纹','水纹']", "['凤纹','云纹','雷纹','水纹']", "['云纹','雷纹','水纹','凤纹']", "['凤纹']"], ans: 2, analysis: "append()在列表末尾追加元素。[cite: 1]" },
+                { q: "fonts='楷行草隶篆'; print(fonts[1:3]) 结果是?", options: ["楷行", "行草", "行草隶", "草隶"], ans: 1, analysis: "切片左闭右开，索引1和2分别是'行'和'草'。[cite: 1]" },
+                { q: "能实现重复循环10次的代码是?", options: ["for i in range(10):", "for i in range(1, 10):", "while i < 10:", "range(10)"], ans: 0, analysis: "range(10)生成0-9共10个整数。[cite: 1]" },
+                { q: "Python中表示逻辑“等于”的符号是?", options: ["=", "==", "!=", ">="], ans: 1, analysis: "==才是比较两个值是否相等。[cite: 1]" },
+                { q: "n=5; if n%2==0: print('偶数') else: print('奇数') 结果是?", options: ["偶数", "奇数", "5", "报错"], ans: 1, analysis: "5除以2余数为1，执行else分支。[cite: 1]" },
+                { q: "执行 color = '红'*3, color 的值是?", options: ["红红红", "3红", "红3", "报错"], ans: 0, analysis: "字符串乘以整数表示重复拼接。[cite: 1]" },
+                { q: "可以将输入的字符串转换为整数类型的函数是?", options: ["str()", "float()", "int()", "print()"], ans: 2, analysis: "int()用于类型转换。[cite: 1]" },
+                { q: "若 a=10, b=20, 执行 a, b = b, a 后，a的值是?", options: ["10", "20", "30", "10 20"], ans: 1, analysis: "这是交换变量值的简便写法。[cite: 1]" },
+                { q: "colors=['蓝','绿']; colors.insert(1, '紫') 后结果是?", options: ["['紫', '蓝', '绿']", "['蓝', '绿', '紫']", "['蓝', '紫', '绿']", "['紫']"], ans: 2, analysis: "insert(1)在索引1位置插入，原位置元素顺延。[cite: 1]" },
+                { q: "s=0; for i in range(1, 4): s=s+i; print(s) 结果是?", options: ["1", "3", "6", "10"], ans: 2, analysis: "1+2+3=6。[cite: 1]" },
+                { q: "下列关于注释的说法正确的是?", options: ["注释会被计算机执行", "注释以 // 开头", "注释以 # 开头", "注释必须写在代码后面"], ans: 2, analysis: "#是单行注释的引导符。[cite: 1]" },
+                { q: "判断：变量名 Heritage 和 heritage 指代同一个变量。", options: ["正确", "错误"], ans: 1, analysis: "Python 严格区分大小写。[cite: 1]" },
+                { q: "判断：列表 tools = ['剪刀','刻刀'], 执行 tools.pop() 后长度变小。", options: ["正确", "错误"], ans: 0, analysis: "pop()会删除并返回最后一个元素。[cite: 1]" },
+                { q: "判断：input() 接收到的用户输入默认是字符串类型。", options: ["正确", "错误"], ans: 0, analysis: "input()始终返回文本字符串。[cite: 1]" },
+                { q: "判断：执行代码 print(3+5*2) 的结果是16。", options: ["正确", "错误"], ans: 1, analysis: "先乘除后加减，结果为13。[cite: 1]" },
+                { q: "判断：缩进在 Python 语言中非常重要，缩进不当会导致报错。", options: ["正确", "错误"], ans: 0, analysis: "缩进是 Python 语法结构的一部分。[cite: 1]" }
+            ]
+        },
+        {
+            title: "2026年信息素养大赛“数字守艺人”Python 模拟卷（二）",
+            questions: [
+                { q: "box = ['灰漆', '刮板','砂纸','漆刷'], 执行 print(box[-1]) 结果是?", options: ["灰漆", "刮板", "漆刷", "报错"], ans: 2, analysis: "-1表示列表最后一个元素。[cite: 2]" },
+                { q: "length = 1.2; print(type(length)) 输出结果是?", options: ["int", "float", "str", "bool"], ans: 1, analysis: "1.2属于浮点数(float)。[cite: 2]" },
+                { q: "count=10; count+=5; count=count//2; 最后变量值是?", options: ["7", "7.5", "15", "8"], ans: 0, analysis: "15//2 是地板除，结果为7。[cite: 2]" },
+                { q: "color='石青'; print('青' in color) 输出是?", options: ["True", "False", "1", "报错"], ans: 0, analysis: "in 运算符检查字符串是否包含子串。[cite: 2]" },
+                { q: "steps=['选料','制坯','上釉','入窑']; print(steps[1:3]) 结果是?", options: ["['选料','制坯']", "['制坯','上釉']", "['制坯','上釉','入窑']", "['选料','入窑']"], ans: 1, analysis: "切片[1:3]提取索引1和2的元素。[cite: 2]" },
+                { q: "a=5; b=10; if a>3 and b<5: print('成立') else: print('不成立')?", options: ["条件成立", "条件不成立", "5 10", "报错"], ans: 1, analysis: "and要求两边同时为真，b<5为假。[cite: 2]" },
+                { q: "for i in range(3): print('影') 会打印几个“影”字?", options: ["2", "3", "4", "0"], ans: 1, analysis: "range(3)产生0,1,2，循环3次。[cite: 2]" },
+                { q: "向列表 list1=[1,2] 末尾一次性添加[3,4]的方法是?", options: ["append([3, 4])", "extend([3, 4])", "add(3, 4)", "insert(3, 4)"], ans: 1, analysis: "extend()用于追加序列元素。[cite: 2]" },
+                { q: "print('20' + '26') 的结果是?", options: ["46", "2026", "\"46\"", "报错"], ans: 1, analysis: "字符串相加表示连接。[cite: 2]" },
+                { q: "执行 a=int(3.9) 后，a的值是?", options: ["3", "4", "3.9", "报错"], ans: 0, analysis: "int()转换浮点数会直接去掉小数部分。[cite: 2]" },
+                { q: "x=1; while x<4: x=x+2; print(x) 结果是?", options: ["3", "4", "5", "1"], ans: 2, analysis: "1+2=3, 3+2=5，此时5不满足循环条件。[cite: 2]" },
+                { q: "在 Python 中，哪个符号表示“不等于”?", options: ["<>", "!=", "==", "not"], ans: 1, analysis: "!= 表示不等于。[cite: 2]" },
+                { q: "print('DigitalArtisan'.lower()) 的结果是?", options: ["DIGITALARTISAN", "digitalartisan", "Digitalartisan", "artisan"], ans: 1, analysis: "lower()转为全小写。[cite: 2]" },
+                { q: "在 Python 中，定义函数的关键字是?", options: ["function", "define", "def", "fun"], ans: 2, analysis: "使用 def 定义函数。[cite: 2]" },
+                { q: "清空列表 L=[1,2,3] 中的所有元素应使用?", options: ["delete()", "clear()", "remove()", "empty()"], ans: 1, analysis: "clear() 移除所有项。[cite: 2]" },
+                { q: "判断：执行 print(10/2) 的结果是整数5。", options: ["正确", "错误"], ans: 1, analysis: "Python 3中/除法结果永远是浮点数5.0。[cite: 2]" },
+                { q: "判断：在 Python 列表里，元素的类型必须是相同的。", options: ["正确", "错误"], ans: 1, analysis: "列表可以包含不同类型元素。[cite: 2]" },
+                { q: "判断：range(5) 和 range(0,5) 生成的序列是一样的。", options: ["正确", "错误"], ans: 0, analysis: "默认起始值为0。[cite: 2]" },
+                { q: "判断：if 语句后面的冒号是可选的。", options: ["正确", "错误"], ans: 1, analysis: "冒号必须加，否则报错。[cite: 2]" },
+                { q: "判断：表达式 not (5>3) 的值是 False。", options: ["正确", "错误"], ans: 0, analysis: "5>3为True，取反后为False。[cite: 2]" }
+            ]
+        },
+        {
+            title: "2026年信息素养大赛“数字守艺人”Python 模拟卷（三）",
+            questions: [
+                { q: "people = [120, 350, 210, 480], 获取最高人数应使用?", options: ["sum(people)", "max(people)", "min(people)", "len(people)"], ans: 1, analysis: "max() 返回序列最大值。[cite: 3]" },
+                { q: "坐标 (116.4, 39.9) 这种不可修改的数据类型是?", options: ["列表(list)", "字典(dict)", "元组(tuple)", "字符串(str)"], ans: 2, analysis: "圆括号定义且不可修改的是元组。[cite: 3]" },
+                { q: "执行 print(7% 3 + 2**3) 的结果是?", options: ["9", "10", "11", "12"], ans: 0, analysis: "1 + 8 = 9。[cite: 3]" },
+                { q: "light = 85, 对应的分支逻辑执行结果是? (>=90高亮, >=80适中, 否则偏暗)", options: ["高亮", "适中", "偏暗", "报错"], ans: 1, analysis: "85满足>=80且<90。[cite: 3]" },
+                { q: "colors=['朱砂','石青','藤黄']; colors[1]='黛蓝'; print(colors) 结果?", options: ["['朱砂','石青','藤黄','黛蓝']", "['朱砂','黛蓝','藤黄']", "['黛蓝','石青','藤黄']", "报错"], ans: 1, analysis: "索引1对应的元素被覆盖。[cite: 3]" },
+                { q: "循环打印4次“传承非遗”，下列代码错误的是?", options: ["for i in [1,2,3,4]:", "for i in range(4):", "for i in range(1,5):", "for i in range(1,4):"], ans: 3, analysis: "range(1,4)只产生1,2,3，循环3次。[cite: 3]" },
+                { q: "Python 中逻辑“非”的运算符是?", options: ["!", "not", "or", "and"], ans: 1, analysis: "逻辑取反用 not。[cite: 3]" },
+                { q: "s = 'Digital_Art', print(s.split('_')) 的输出是?", options: ["'Digital Art'", "['Digital', 'Art']", "'DigitalArt'", "['D','i'...]"], ans: 1, analysis: "split 以指定字符分割成列表。[cite: 3]" },
+                { q: "嵌套循环执行 2*2 次加法，最后 ans 结果是?", options: ["2", "3", "4", "6"], ans: 2, analysis: "外层循环2次，内层循环2次，共4次累加。[cite: 3]" },
+                { q: "判断既是3的倍数又是5的倍数的正确表达式是?", options: ["x%3==0 or x%5==0", "x%3==0 and x%5==0", "x%15!=0", "x/15==0"], ans: 1, analysis: "同时满足用 and。[cite: 3]" },
+                { q: "弹出并返回列表中指定位置元素的函数是?", options: ["remove()", "delete()", "pop()", "discard()"], ans: 2, analysis: "pop() 删除并返回该值。[cite: 3]" },
+                { q: "执行 print(bool(0)) 的结果是?", options: ["True", "False", "0", "报错"], ans: 1, analysis: "数字0的布尔值为False。[cite: 3]" },
+                { q: "a='手工编织'; b=a; a='机器制造'; print(b) 结果是?", options: ["手工编织", "机器制造", "a", "报错"], ans: 0, analysis: "b指向的是最初a引用的内容。[cite: 3]" },
+                { q: "查找字符索引位置可以使用哪些函数?", options: ["find() 或 index()", "search()", "where()", "locate()"], ans: 0, analysis: "字符串和列表常用index()，字符串还可用find()。[cite: 3]" },
+                { q: "执行 print([1, 2, 3] * 2) 的结果是?", options: ["[2, 4, 6]", "[1, 2, 3, 1, 2, 3]", "[1, 2, 3, 2]", "报错"], ans: 1, analysis: "列表相乘表示内容重复拼接。[cite: 3]" },
+                { q: "判断：input() 里的提示语会影响输入结果。", options: ["正确", "错误"], ans: 1, analysis: "提示语仅起引导作用。[cite: 3]" },
+                { q: "判断：print(type(True)) 输出结果是字符串类。", options: ["正确", "错误"], ans: 1, analysis: "结果应为 bool 类。[cite: 3]" },
+                { q: "判断：while True 可以创建死循环。", options: ["正确", "错误"], ans: 0, analysis: "条件永远为真，需要 break 退出。[cite: 3]" },
+                { q: "判断：data=[5,2,8,1], 执行 data.sort() 后内容变为升序。", options: ["正确", "错误"], ans: 0, analysis: "sort() 默认升序排列。[cite: 3]" },
+                { q: "判断：表达式 3>5 or 10<20 的结果是 False。", options: ["正确", "错误"], ans: 1, analysis: "10<20为真，or运算结果为True。[cite: 3]" }
+            ]
+        },
+        {
+            title: "2026年信息素养大赛“数字守艺人”Python 模拟卷（四）",
+            questions: [
+                { q: "字典 artisan = {'姓名':'张三','技艺':'剪纸'}，获取“剪纸”的代码是?", options: ["artisan[0]", "artisan['技艺']", "artisan.value('技艺')", "artisan{1}"], ans: 1, analysis: "通过键访问对应的值。[cite: 4]" },
+                { q: "name='小明'; print(f'欢迎你,{name}!') 输出是?", options: ["欢迎你,name!", "欢迎你,{name}!", "欢迎你,小明!", "报错"], ans: 2, analysis: "f-string 方便地嵌入变量。[cite: 4]" },
+                { q: "range(1,10)中偶数时 continue，最后累加计数 total 是?", options: ["4", "5", "9", "10"], ans: 1, analysis: "跳过偶数，累加奇数1,3,5,7,9，共5个。[cite: 4]" },
+                { q: "将 0.852 格式化为百分数并保留一位小数的结果是?", options: ["85.2%", "85%", "0.9%", "85.2"], ans: 0, analysis: "{:.1%} 表示百分比并保留1位小数。[cite: 4]" },
+                { q: "向字典 data={'id':1} 添加 'type':'玉雕' 的方式是?", options: ["data.add('type','玉雕')", "data['type'] = '玉雕'", "data.append('type':'玉雕')", "data + {'type':'玉雕'}"], ans: 1, analysis: "直接用字典名[键]=值。[cite: 4]" },
+                { q: "函数有默认参数“传承者”，调用时传入“小王”，输出结果是?", options: ["你好,传承者", "你好,小王", "你好,传承者小王", "报错"], ans: 1, analysis: "传入参数覆盖默认值。[cite: 4]" },
+                { q: "查找“经”在“道德经”中的位置, text.find('经') 结果是?", options: ["1", "2", "3", "-1"], ans: 1, analysis: "索引从0开始，“经”在位置2。[cite: 4]" },
+                { q: "下列列表推导式写法正确的是?", options: ["[i for i in range(5)]", "[for i in range(5): i]", "i for i in range(5)", "list(i in range(5))"], ans: 0, analysis: "标准语法是[表达式 for 变量 in 迭代对象]。[cite: 4]" },
+                { q: "函数内部定义 x=20，外部 x=10，函数调用后打印外部x结果是?", options: ["10", "20", "30", "报错"], ans: 0, analysis: "函数内部修改的是局部变量。[cite: 4]" },
+                { q: "Python 中不存在哪种循环结构?", options: ["for", "while", "do...while", "以上都存在"], ans: 2, analysis: "Python 只有 for 和 while 循环。[cite: 4]" },
+                { q: "print(list(range(5, 0, -2))) 的结果是?", options: ["[5, 4, 3, 2, 1, 0]", "[5, 3, 1]", "[5, 2]", "[5, 3, 1, -1]"], ans: 1, analysis: "从5开始递减2，不含0。[cite: 4]" },
+                { q: "判断 cat 是否在列表 classic 中的运算符是?", options: ["==", "in", "is", "has"], ans: 1, analysis: "in 用于判断成员关系。[cite: 4]" },
+                { q: "s = 'Python', print(s[2:4] + s[-1]) 结果是?", options: ["thn", "ytn", "thno", "pyn"], ans: 0, analysis: "'th' + 'n' = 'thn'。[cite: 4]" },
+                { q: "将多行字符串赋值给变量，最适合使用?", options: ["单引号", "双引号", "三引号", "括号"], ans: 2, analysis: "三引号允许跨越多行。[cite: 4]" },
+                { q: "下列哪个操作会报错?", options: ["2 + 3.0", "'Age:' + 18", "[1] * 3", "True + 1"], ans: 1, analysis: "字符串不能直接与整数相加。[cite: 4]" },
+                { q: "判断：字典中的键必须唯一，但值可以重复。", options: ["正确", "错误"], ans: 0, analysis: "键不可重复，值可以。[cite: 4]" },
+                { q: "判断：使用 break 会跳过当前循环，执行下一次循环。", options: ["正确", "错误"], ans: 1, analysis: "break 是终止整个循环。[cite: 4]" },
+                { q: "判断：Python 中的函数必须有返回值。", options: ["正确", "错误"], ans: 1, analysis: "函数可以没有 return。[cite: 4]" },
+                { q: "判断：len({'a': 1, 'b': 2}) 的结果是4。", options: ["正确", "错误"], ans: 1, analysis: "结果应为键值对数量 2。[cite: 4]" },
+                { q: "判断：元组一旦创建，其中的元素不能被修改。", options: ["正确", "错误"], ans: 0, analysis: "这是元组的不可变特性。[cite: 4]" }
+            ]
+        },
+        {
+            title: "2026年信息素养大赛“数字守艺人”Python 模拟卷（五）",
+            questions: [
+                { q: "导入 Python 随机数模块的正确方式是?", options: ["import random", "include random", "using random", "import Random"], ans: 0, analysis: "模块名 random 全小写。[cite: 5]" },
+                { q: "嵌套字典 windows 获取“漏窗”数量的代码是?", options: ["windows['漏窗','数量']", "windows['漏窗']['数量']", "windows['漏窗']+windows['数量']", "windows.get('数量')"], ans: 1, analysis: "嵌套访问需连续使用方括号。[cite: 5]" },
+                { q: "执行 math.floor(4.9) 的结果是?", options: ["4", "5", "4.0", "5.0"], ans: 0, analysis: "向下取整为 4。[cite: 5]" },
+                { q: "生成1到100之间随机整数(含两端)的方法是?", options: ["random.randint(1, 100)", "random.random(1, 100)", "random.range(1, 100)", "random.randint(1, 99)"], ans: 0, analysis: "randint 包含两个端点。[cite: 5]" },
+                { q: "data=[10,20,30,40], 插入25移除20后结果是?", options: ["[10, 25, 30, 40]", "[10, 20, 25, 30, 40]", "[10, 25, 20, 30, 40]", "[25, 30, 40]"], ans: 0, analysis: "插入后变为[10,20,25,30,40]，移除20得结果。[cite: 5]" },
+                { q: "循环遍历“守艺人”，到“艺”时 break，打印结果是?", options: ["守", "守艺", "守艺人", "艺人"], ans: 0, analysis: "遇到 break 直接终止循环。[cite: 5]" },
+                { q: "将 scores=[88,92,75] 从大到小排列正确的是?", options: ["scores.sort()", "scores.sort(reverse=True)", "scores.reverse()", "sorted(scores)"], ans: 1, analysis: "reverse=True 实现降序。[cite: 5]" },
+                { q: "下列哪个表达式的结果为 False?", options: ["3>2 and 1<2", "not 0", "5>3 or 4<1", "10>20 and 1==1"], ans: 3, analysis: "and 运算中只要有一方为假，结果为假。[cite: 5]" },
+                { q: "列表传递给函数并在内修改，外部列表长度变化吗?", options: ["1", "2", "0", "报错"], ans: 1, analysis: "列表是可变对象，内部修改影响外部。[cite: 5]" },
+                { q: "检查字符串是否以 'SH' 开头的方法是?", options: ["startswith('SH')", "beginwith('SH')", "SH in code", "find('SH')==0"], ans: 0, analysis: "startswith 用于检查前缀。[cite: 5]" },
+                { q: "print(list(range(0, 10, 3))) 的结果是?", options: ["[0, 3, 6, 9]", "[3, 6, 9]", "[0, 1, 2, 3]", "[0, 3, 6, 9, 12]"], ans: 0, analysis: "从0开始，步长为3。[cite: 5]" },
+                { q: "适合存储“键值对”的数据结构是?", options: ["列表", "集合", "字典", "元组"], ans: 2, analysis: "字典专门处理映射关系。[cite: 5]" },
+                { q: "print(5**2 + 5//2) 的计算结果是?", options: ["27", "25.5", "27.5", "12"], ans: 0, analysis: "25 + 2 = 27。[cite: 5]" },
+                { q: "判断变量是否为字符串最推荐的方法是?", options: ["type(s) == str", "isinstance(s, str)", "s.isstr()", "str(s)"], ans: 1, analysis: "isinstance 是更稳健的判断方式。[cite: 5]" },
+                { q: "关于 for 循环说法错误的是?", options: ["可以遍历字符串", "可以遍历列表", "必须搭配 range() 使用", "循环体需要缩进"], ans: 2, analysis: "可以遍历任何序列对象，不一定要用 range。[cite: 5]" },
+                { q: "判断：float('3.14') 可以将字符串转为浮点数。", options: ["正确", "错误"], ans: 0, analysis: "float() 支持数字字符串转换。[cite: 5]" },
+                { q: "判断：字典可以使用列表作为键。", options: ["正确", "错误"], ans: 1, analysis: "字典键必须是不可变类型，列表不行。[cite: 5]" },
+                { q: "判断：相同的随机数种子生成的随机序列是一样的。", options: ["正确", "错误"], ans: 0, analysis: "种子决定了生成的起始点。[cite: 5]" },
+                { q: "判断：a.copy() 是浅拷贝，修改副本不会影响原件。", options: ["正确", "错误"], ans: 0, analysis: "copy() 创建了新对象。[cite: 5]" },
+                { q: "判断：print(1, 2, sep='-') 的输出结果是 1-2。", options: ["正确", "错误"], ans: 0, analysis: "sep 定义了输出项之间的分隔符。[cite: 5]" }
+            ]
+        }
+    ];
+let currentPaperIdx = -1;
+
+    function showMenu() {
+        document.getElementById('menu').classList.remove('hidden');
+        document.getElementById('quiz-area').classList.add('hidden');
+        document.getElementById('nav').classList.add('hidden');
+    }
+
+    function startQuiz(idx) {
+        currentPaperIdx = idx;
+        const paper = papers[idx];
+        document.getElementById('menu').classList.add('hidden');
+        document.getElementById('quiz-area').classList.remove('hidden');
+        document.getElementById('nav').classList.remove('hidden');
+        document.getElementById('paper-title').innerText = paper.title;
+        document.getElementById('result-summary').style.display = 'none';
+        
+        const form = document.getElementById('quiz-form');
+        form.innerHTML = '';
+        
+        paper.questions.forEach((item, qIdx) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question-box';
+            qDiv.id = `q-box-${qIdx}`;
+            
+            // 题目标签
+            const typeTag = item.options.length === 2 ? '<span class="tag tag-tf">判断题</span>' : '<span class="tag tag-choice">单选题</span>';
+            
+            let optionsHtml = '';
+            item.options.forEach((opt, oIdx) => {
+                const label = item.options.length === 2 ? (oIdx === 0 ? "A. 正确" : "B. 错误") : `${String.fromCharCode(65 + oIdx)}. ${opt}`;
+                optionsHtml += `
+                    <label>
+                        <input type="radio" name="q${qIdx}" value="${oIdx}"> 
+                        ${label}
+                    </label>
+                `;
+            });
+
+            qDiv.innerHTML = `
+                ${typeTag}
+                <p><strong>${qIdx + 1}. ${item.q}</strong></p>
+                <div class="options">${optionsHtml}</div>
+                <div id="analysis-${qIdx}" class="analysis hidden"></div>
+            `;
+            form.appendChild(qDiv);
+        });
+        document.getElementById('submit-btn').classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function submitAnswers() {
+        const paper = papers[currentPaperIdx];
+        let score = 0;
+        paper.questions.forEach((item, qIdx) => {
+            const selected = document.querySelector(`input[name="q${qIdx}"]:checked`);
+            const qBox = document.getElementById(`q-box-${qIdx}`);
+            const analysis = document.getElementById(`analysis-${qIdx}`);
+            
+            analysis.classList.remove('hidden');
+            let resultText = `【正确答案：${String.fromCharCode(65 + item.ans)}】<br>${item.analysis}`;
+            
+            if (selected && parseInt(selected.value) === item.ans) {
+                score += 5;
+                qBox.className = 'question-box correct';
+                analysis.innerHTML = `<span style="color:var(--success-color)">恭喜答对！</span><br>${resultText}`;
+            } else {
+                qBox.className = 'question-box wrong';
+                const userAns = selected ? String.fromCharCode(65 + parseInt(selected.value)) : "未作答";
+                analysis.innerHTML = `<span style="color:var(--error-color)">遗憾答错（你的选择：${userAns}）</span><br>${resultText}`;
+            }
+        });
+
+        const resultPanel = document.getElementById('result-summary');
+        resultPanel.style.display = 'block';
+        resultPanel.innerHTML = `
+            <h2>测试得分：${score} / 100</h2>
+            <p>绿色背景为正确题目，红色背景为错误题目。你可以滑动页面查看下方详细解析。</p>
+            <button class="btn" style="background:#34495e; width: 200px; margin: 20px auto;" onclick="showMenu()">返回主菜单</button>
+        `;
+        document.getElementById('submit-btn').classList.add('hidden');
+        window.scrollTo(0,0);
+    }
+</script>
+</body>
+</html>

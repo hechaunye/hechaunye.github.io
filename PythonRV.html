@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全国信息素养大赛 - Python小学组终极全能冲刺站</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-light: #EFF6FF;
+            --success: #16A34A;
+            --success-light: #DCFCE7;
+            --warning: #D97706;
+            --warning-light: #FEF3C7;
+            --danger: #DC2626;
+            --danger-light: #FEE2E2;
+            --dark: #1E293B;
+            --slate: #64748B;
+            --bg: #F8FAFC;
+            --border: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 100px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1E3A8A, #0F172A);
+            color: white;
+            text-align: center;
+            padding: 3.5rem 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* 标签页切换 */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            gap: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 3rem;
+            font-size: 1.15rem;
+            border: none;
+            background-color: #E2E8F0;
+            color: var(--slate);
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: bold;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* 精细化考点网格与卡片 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+        }
+
+        .cheat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            border-top: 6px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .cheat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .cheat-card h3 {
+            color: var(--dark);
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cheat-card .badge {
+            font-size: 0.8rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .cheat-card pre {
+            background-color: #0F172A;
+            color: #F8FAFC;
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 5px solid var(--success);
+        }
+
+        .cheat-card ul {
+            list-style-type: none;
+            margin-top: 1rem;
+        }
+
+        .cheat-card li {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            padding-left: 1.6rem;
+            position: relative;
+        }
+
+        .cheat-card li::before {
+            content: "🔥";
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+
+        .cheat-card li.tip::before {
+            content: "💡";
+        }
+
+        .important {
+            color: var(--danger);
+            font-weight: bold;
+            background-color: var(--danger-light);
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .highlight {
+            color: var(--warning);
+            font-weight: bold;
+        }
+
+        /* 容器对比表格 */
+        .container-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        .container-table th, .container-table td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: left;
+        }
+
+        .container-table th {
+            background-color: var(--bg);
+            color: var(--dark);
+        }
+
+        /* 答题系统样式 */
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quiz-progress {
+            font-size: 1.05rem;
+            color: var(--slate);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px dashed var(--border);
+            padding-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+
+        .question-text pre {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 1rem;
+            color: #0F172A;
+            border-left: 5px solid var(--primary);
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .option-btn {
+            padding: 1.2rem 1.8rem;
+            text-align: left;
+            border: 2px solid var(--border);
+            background-color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            color: #475569;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .option-btn.correct {
+            background-color: var(--success-light);
+            border-color: var(--success);
+            color: #14532D;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--danger-light);
+            border-color: var(--danger);
+            color: #7F1D1D;
+        }
+
+        .feedback-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+            white-space: pre-line;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-box.correct-style {
+            background-color: var(--success-light);
+            color: #14532D;
+            border-left: 6px solid var(--success);
+        }
+
+        .feedback-box.wrong-style {
+            background-color: var(--danger-light);
+            color: #7F1D1D;
+            border-left: 6px solid var(--danger);
+        }
+
+        .action-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+        }
+
+        .nav-btn {
+            padding: 0.9rem 2.5rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background-color: #1D4ED8;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+        }
+
+        .nav-btn:disabled {
+            background-color: #CBD5E1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .score-board {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .score-num {
+            font-size: 5rem;
+            color: var(--success);
+            font-weight: 900;
+            margin: 1.5rem 0;
+        }
+
+        code.inline-code {
+            background-color: #E2E8F0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+            color: #0F172A;
+        }
+
+        @media (max-width: 768px) {
+            .tabs { flex-direction: column; gap: 0.5rem; }
+            .tab-btn { width: 100%; text-align: center; }
+            .quiz-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏆 全国信息素养大赛 Python 小学组</h1>
+        <p>核心考点精细全覆盖 & 100分高频重难点冲刺刷题站</p>
+    </header>
+
+    <div class="container">
+        <!-- 标签导航 -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('knowledge')">📖 核心考点深度精细罗列</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">✍️ 大赛重难点通关模拟</button>
+        </div>
+
+        <!-- 面板 1: 精细罗列 -->
+        <div id="knowledge" class="panel active">
+            <div class="card-grid">
+                
+                <!-- 模块 1 -->
+                <div class="cheat-card" style="border-top-color: #EF4444;">
+                    <h3>一、输入/输出与数据类型转换</h3>
+                    <pre># 核心现象 1: input() 吞进去的所有东西都是字符串
+ans = input() # 即使键盘输入的是 100
+print(type(ans)) # 必然输出 <class 'str'>
+
+# 核心现象 2: print() 的隐藏参数
+print("A", "B", sep="-", end="*") # 输出 A-B* (不换行)
+
+# 核心现象 3: 强制转换的边界
+print(int(3.9))    # 截断取整输出 3 (不是四舍五入)
+print(int("12"))   # 成功转换为整数 12
+# int("3.14")      # 报错！字符串内含有小数点无法直接转int</pre>
+                    <ul>
+                        <li><span class="important">真题陷阱：</span>直接执行 <code class="inline-code">input() + 1</code> 会发生 <code class="inline-code">TypeError</code> 报错，必须先加 <code class="inline-code">int()</code>。</li>
+                        <li><span class="important">类型区别：</span><code class="inline-code">3</code> 是 <code class="inline-code">int</code>，<code class="inline-code">3.0</code> 是 <code class="inline-code">float</code>。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 2 -->
+                <div class="cheat-card" style="border-top-color: #3B82F6;">
+                    <h3>二、字符串格式化与高阶切片</h3>
+                    <pre>pi = 3.1415926
+# 现象 1: 精确控制小数位数 (自带四舍五入)
+print(f"{pi:.2f}") # 输出: '3.14'
+print(f"{pi:.4f}") # 输出: '3.1416'
+
+# 现象 2: 整数占位补零
+num = 7
+print(f"{num:03d}") # 输出: '007' (总共3位宽度)
+
+# 现象 3: 切片步长与逆序
+s = "ABCDEFG"
+print(s[1:5:2]) # 输出: 'BD' (索引1和3，不含5)
+print(s[::-1])  # 输出: 'GFEDCBA' (经典字符串反转)</pre>
+                    <ul>
+                        <li><span class="important">致命概念：</span><code class="inline-code">f"{pi:.2f}"</code> 的结果是一个<span class="highlight">字符串</span>，而不是数字！</li>
+                        <li>字符串是<span class="important">不可变对象</span>。执行 <code class="inline-code">s.replace('A','X')</code> 后不赋值回 <code class="inline-code">s</code>，<code class="inline-code">s</code> 绝不改变。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 3 -->
+                <div class="cheat-card" style="border-top-color: #10B981;">
+                    <h3>三、四大算术除法与运算符优先级</h3>
+                    <pre># 1. 真除法 / -> 结果必为浮点数
+print(6 / 2)   # 输出 3.0 (绝对不是整数 3)
+
+# 2. 地板除 // -> 向下取整
+print(7 // 3)  # 输出 2
+print(-7 // 3) # 输出 -3 (向更小的负数方向靠拢)
+
+# 3. 取余 % -> 常用于周期性与奇偶判断
+print(7 % 3)   # 输出 1
+print(4 % 2)   # 输出 0 (说明4是偶数)</pre>
+                    <ul>
+                        <li><span class="important">终极优先级：</span>括号 <code class="inline-code">()</code> ➔ 乘方 <code class="inline-code">**</code> ➔ 乘除整除取余 <code class="inline-code">*, /, //, %</code> ➔ 加减 <code class="inline-code">+, -</code> ➔ 比较运算符 ➔ 逻辑运算符（<code class="inline-code">not</code> ➔ <code class="inline-code">and</code> ➔ <code class="inline-code">or</code>）。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 4 -->
+                <div class="cheat-card" style="border-top-color: #8B5CF6;">
+                    <h3>四、四大集合容器微观辨析</h3>
+                    <table class="container-table">
+                        <thead>
+                            <tr><th>容器</th><th>符号</th><th>可重复</th><th>可修改</th><th>关键特性/高频考点</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><b>列表 (list)</b></td><td><code class="inline-code">[]</code></td><td>✅ 是</td><td>✅ 是</td><td><code class="inline-code">append()</code>追加，<code class="inline-code">pop()</code>删除</td></tr>
+                            <tr><td><b>元组 (tuple)</b></td><td><code class="inline-code">()</code></td><td>✅ 是</td><td>❌ 否</td><td><code class="inline-code">t=(1)</code>是int！单元素必须写成<code class="inline-code">(1,)</code></td></tr>
+                            <tr><td><b>字典 (dict)</b></td><td><code class="inline-code">{}</code></td><td>❌ 键无</td><td>✅ 是</td><td>键值对。键（key）必须不可变，列表不能作键</td></tr>
+                            <tr><td><b>集合 (set)</b></td><td><code class="inline-code">{}</code></td><td>❌ 否</td><td>✅ 是</td><td><span class="important">自动去重</span>。例如把列表转集合去重</td></tr>
+                        </tbody>
+                    </table>
+                    <ul>
+                        <li><span class="important">清空与删除：</span>列表的 <code class="inline-code">remove(x)</code> 删除的是具体的值，而 <code class="inline-code">del arr[0]</code> 删除的是索引处对应的值。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 5 -->
+                <div class="cheat-card" style="border-top-color: #F59E0B;">
+                    <h3>五、条件分支控制与 range() 边界</h3>
+                    <pre># if-elif 的短路特性
+score = 90
+if score >= 60:
+    print("及格")
+elif score >= 80:
+    print("优秀") # 永远不可能走到这里！因为被上面拦截了
+
+# range(start, stop, step) 左闭右开
+print(list(range(5)))     # [0, 1, 2, 3, 4] (默认从0开始)
+print(list(range(1, 5)))  # [1, 2, 3, 4] (不含结束值5)
+print(list(range(5, 1, -2))) # [5, 3] (负数步长逆序)</pre>
+                    <ul>
+                        <li><li class="tip">缩进规则：</li>Python 强制依赖缩进。同一代码块的缩进空格数必须绝对一致，否则报 <code class="inline-code">IndentationError</code>。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 6 -->
+                <div class="cheat-card" style="border-top-color: #EC4899;">
+                    <h3>六、全局与局部变量及异常处理</h3>
+                    <pre>n = 10 # 全局变量
+def change():
+    global n # 必须声明，否则内部写 n=20 会变成局部变量
+    n = 20
+
+# try-except 捕捉精确错误
+try:
+    ans = 10 / 0
+except ZeroDivisionError:
+    print("抓到了！除数不能为0")
+except TypeError:
+    print("类型错误")</pre>
+                    <ul>
+                        <li><span class="important">变量作用域：</span>函数内部可以直接**读取**全局变量的值，但若想**修改（重新赋值）**全局变量的值，必须在函数内部首行写 <code class="inline-code">global 变量名</code>。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 7 -->
+                <div class="cheat-card" style="border-top-color: #06B6D4;">
+                    <h3>七、二维列表与文件控制</h3>
+                    <pre># 二维列表的定位: [行][列]
+grid = [
+    [1, 2, 3], # 第 0 行
+    [4, 5, 6]  # 第 1 行
+]
+print(grid[1][2]) # 定位第1行第2列 -> 6
+
+# 文件读写三字诀: r(读), w(覆盖写), a(追加写)
+with open("test.txt", "w") as f:
+    f.write("Hello") # 自动关闭文件，防止内存泄露</pre>
+                    <ul>
+                        <li><span class="important">文件模式重难点：</span><code class="inline-code">"w"</code> 模式极度危险，只要打开就会彻底清空原文件；想在后面加内容，必须用 <code class="inline-code">"a"</code> 模式。</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 8 -->
+                <div class="cheat-card" style="border-top-color: #10B981;">
+                    <h3>八、常用标准模块 (random / time)</h3>
+                    <pre>import random
+import time
+
+print(random.randint(1, 5)) # 产生[1,2,3,4,5]中的任意整数
+# 注意: randint 极其特殊，它是【左闭右闭】的！
+
+print(random.random()) # 产生 0.0 到 1.0 之间的随机浮点数
+
+print(time.time()) # 返回当前的时间戳(大浮点数)
+time.sleep(2)      # 整个程序强制静止（睡眠）2秒钟</pre>
+                    <ul>
+                        <li><span class="important">唯一特例：</span>Python 里几乎所有的截取和生成都是左闭右开，唯独 <code class="inline-code">random.randint(a, b)</code> 能生成边界值 <code class="inline-code">b</code>！</li>
+                    </ul>
+                </div>
+
+                <!-- 模块 9 -->
+                <div class="cheat-card" style="border-top-color: #6366F1;">
+                    <h3>九、大赛核心算法逻辑辨析</h3>
+                    <ul>
+                        <li><b>枚举算法：</b>俗称“死笨方法”，用 <code class="inline-code">for</code> 或 <code class="inline-code">while</code> 循环把所有可能的情况全部尝试一遍，符合条件的留下。</li>
+                        <li><b>模拟算法：</b>题目说怎么做，代码就怎么原封不动地还原。例如：模拟时钟转动、模拟发牌。</li>
+                        <li><b>贪心算法：</b>只看眼前。每一步都做出在当前看来最好的选择，从而期望得到全局最优解（如：人民币找零钱，优先给面值最大的）。</li>
+                        <li><b>递归算法：</b>自己调用自己。核心考点是**必须有明确的终止条件**，否则会引发 <code class="inline-code">RecursionError</code>（死递归）。</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 面板 2: 大赛模拟通关题库 -->
+        <div id="quiz" class="panel">
+            <div class="quiz-container">
+                <div id="quiz-box">
+                    <div class="quiz-progress">
+                        <span id="progress-text">第 1 / 10 题</span>
+                        <span id="score-text">当前得分: 0</span>
+                    </div>
+                    <div class="question-text" id="question-content">
+                        题目加载中...
+                    </div>
+                    <div class="options-list" id="options-container">
+                        <!-- 选项动态填充 -->
+                    </div>
+                    <div class="feedback-box" id="feedback-area">
+                        解析提示
+                    </div>
+                    <div class="action-nav">
+                        <button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>上一题</button>
+                        <button class="nav-btn" id="next-btn" onclick="nextQuestion()">下一题</button>
+                    </div>
+                </div>
+
+                <div id="result-box" class="score-board" style="display: none;">
+                    <h2>🎉 冲刺测试完成！</h2>
+                    <p>你的最终评定得分：</p>
+                    <div class="score-num" id="final-score">0分</div>
+                    <p id="evaluation-text">评语加载中...</p>
+                    <button class="tab-btn" style="margin-top: 2rem; background-color: var(--success); color:white;" onclick="restartQuiz()">重新挑战满分</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const optionLabels = ['A', 'B', 'C', 'D'];
+
+        // 覆盖考点大纲、题目极度精细的大赛仿真题库
+        const questions = [
+            {
+                question: "小明在控制台输入了 3.14 之后，执行了以下代码，请问会发生什么？\n<pre>num = input('请输入一个数字：')\nresult = int(num) + 1\nprint(result)</pre>",
+                options: ["打印出 4.14", "打印出 4", "打印出 3", "程序会报错 (ValueError)"],
+                answer: 3,
+                explanation: "📢 考点解析：\n1. input() 接收键盘输入的结果是字符串 '3.14'。\n2. int() 函数在将字符串转换为整数时，字符串内部必须是纯整数格式。因为 '3.14' 里包含小数点，int() 无法直接解析，所以程序会抛出 ValueError 错误。如果要转，必须先用 float('3.14')。"
+            },
+            {
+                question: "运行以下代码，输出在屏幕上的结果是哪一个？\n<pre>a = 5\nb = 2\nprint(a / b, a // b, a % b)</pre>",
+                options: ["2.5 2 1", "2 2 1", "2.5 2.0 1.0", "2.5 2 1.0"],
+                answer: 0,
+                explanation: "📢 考点解析：\n- a / b 是真除法，5 / 2 的结果一定是浮点数 2.5。\n- a // b 是地板除，5 // 2 向下取整结果是整数 2。\n- a % b 是取余数，5 除以 2 余数是 1。\n所以连续打印结果是 2.5 2 1。"
+            },
+            {
+                question: "为了将成绩数据（浮点数）保留两位小数，并把小于10的整数前补零变成2位宽度（如7变成07），小明写了格式化输出代码。以下哪组选项输出的结果最符合预期？\n<pre>score = 9.567\ncode = 7\nprint(f'{score:.2f}', f'{code:02d}')</pre>",
+                options: ["9.56 7", "9.57 07", "9.57 70", "9.567 07"],
+                answer: 1,
+                explanation: "📢 考点解析：\n- `{score:.2f}` 表示将 score 按浮点数保留2位小数，且会进行四舍五入，9.567 变成 '9.57'。\n- `{code:02d}` 表示将整数 code 格式化为宽度为2的数字，空位用 0 补齐，7 变成 '07'。"
+            },
+            {
+                question: "运行以下关于字符串切片的代码，最终屏幕上会显示什么？\n<pre>s = 'National'\nprint(s[2:6:2])</pre>",
+                options: ["ti", "to", "tn", "tin"],
+                answer: 1,
+                explanation: "📢 考点解析：\n字符串 s = 'National'，各字符索引为：0:N, 1:a, 2:t, 3:i, 4:o, 5:n, 6:a, 7:l。\n切片 `s[2:6:2]` 规定：从索引 2（'t'）开始，到索引 6（'a'，但不包含值），步长为2。\n因此提取的索引为 2 和 4，对应的字符是 't' 和 'o'，合并输出 'to'。"
+            },
+            {
+                question: "执行下列代码后，控制台打印出来的结果是什么？\n<pre>val = 1 > 2 or 3 + 2 == 5 and not 4 < 3\nprint(val)</pre>",
+                options: ["True", "False", "报错", "0"],
+                answer: 0,
+                explanation: "📢 考点解析：\n按照优先级：\n1. 先算算术运算符：3 + 2 变成 5。此时表达式为：1 > 2 or 5 == 5 and not 4 < 3\n2. 再算比较运算符：1>2是False，5==5是True，4<3是False。表达式变为：False or True and not False\n3. 再算逻辑 not：not False 变成 True。表达式变为：False or True and True\n4. 再算逻辑 and：True and True 结果是 True。表达式变为：False or True\n5. 最后算 or：False or True 最终结果是 True。"
+            },
+            {
+                question: "关于代码中的循环和 range() 函数，下列哪一项说法是**完全正确**的？",
+                options: [
+                    "range(1, 5) 能够产生数字 1, 2, 3, 4, 5",
+                    "while True: 构成的无限循环，无法在程序内部通过代码跳出，只能强行关闭软件",
+                    "执行 for i in range(5, 1, -1):，循环体内 i 的值依次是 5, 4, 3, 2",
+                    "Python中的代码缩进只是为了好看，不影响 while 或 for 循环的执行"
+                ],
+                answer: 2,
+                explanation: "📢 考点解析：\n- A选项：range(1, 5) 是左闭右开，不包含5，错。\n- B选项：无限循环可以通过内部配合 if 条件触发 break 语句来强行跳出，错。\n- C选项：起点是5，终点是1（不含1），步长是-1（递减），所以产生 5, 4, 3, 2，正确。\n- D选项：Python 严重依赖缩进划分作用域，缩进错误会直接引发程序报错，错。"
+            },
+            {
+                question: "运行以下程序，最终控制台输出的数字是多少？\n<pre>lst = [10, 20, 30, 40]\nlst.append(50)\nlst.pop(1)\nprint(len(lst))</pre>",
+                options: ["5", "4", "3", "20"],
+                answer: 1,
+                explanation: "📢 考点解析：\n1. 初始列表：[10, 20, 30, 40]\n2. 执行 lst.append(50)：在末尾添加50，列表变为 [10, 20, 30, 40, 50]\n3. 执行 lst.pop(1)：删除索引为 1 的元素（即第二个数字 20），列表变为 [10, 30, 40, 50]\n4. 此时列表里剩下4个元素，len(lst) 的结果是 4。"
+            },
+            {
+                question: "运行以下包含字典与函数的程序，请问最终的输出结果是什么？\n<pre>info = {'name': '小明', 'age': 11}\ndef update_data():\n    info['age'] = 12\nupdate_data()\nprint(info['age'])</pre>",
+                options: ["11", "12", "程序在函数内会报错", "None"],
+                answer: 1,
+                explanation: "📢 考点解析：\n- info 是一个在全局定义的字典（可变对象）。\n- 在函数 update_data() 内部，给 info['age'] 赋值。虽然函数内部没有写 global，但是因为字典是可变对象，我们可以直接在函数内修改其内部元素的值。修改会直接影响全局的 info 字典。所以输出是 12。"
+            },
+            {
+                question: "运行以下程序，控制台输出的元素内容是什么？\n<pre>matrix = [\n    [1, 3, 5],\n    [7, 9, 11],\n    [13, 15, 17]\n]\nprint(matrix[2][0])</pre>",
+                options: ["1", "7", "13", "15"],
+                answer: 2,
+                explanation: "📢 考点解析：\n二维列表取元素遵循 `[行索引][列索引]`。\n- matrix[2] 代表获取索引为2的行（即第三排）：`[13, 15, 17]`。\n- matrix[2][0] 代表获取该行中索引为0的第一个元素，也就是 `13`。"
+            },
+            {
+                question: "小明用 with 语句编写了一段文件操作代码，运行后发现原本保存在 'score.txt' 里的历史成绩全部不见了，变成了空白或者只有新写入的一行。请问最可能的原因是他选用了哪种模式？",
+                options: [
+                    "使用了 'r' 模式",
+                    "使用了 'w' 模式",
+                    "使用了 'a' 模式",
+                    "使用了 'with' 语句导致的自动清空"
+                ],
+                answer: 1,
+                explanation: "📢 考点解析：\n- 'r' 模式是只读，无法写入。\n- 'w' (write) 模式极其霸道，一旦成功打开文件，如果文件已存在，它会首先**强制清空原文件内的所有内容**再准备写入。因此历史数据消失是因为误用了 'w' 模式。如果要保留历史数据并追加，必须使用 'a' (append) 模式。"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function renderQuestion() {
+            const quizBox = document.getElementById('quiz-box');
+            const resultBox = document.getElementById('result-box');
+            quizBox.style.display = "block";
+            resultBox.style.display = "none";
+
+            const q = questions[currentQuestionIndex];
+            
+            document.getElementById('progress-text').innerText = `题号进度: ${currentQuestionIndex + 1} / ${questions.length}`;
+            document.getElementById('score-text').innerText = `实时正确率得分: ${calculateScore()} 分`;
+            document.getElementById('question-content').innerHTML = q.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.innerHTML = `${optionLabels[index]}. ${option}`;
+                button.onclick = () => selectOption(index);
+                
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    button.disabled = true;
+                    if (index === q.answer) {
+                        button.classList.add('correct');
+                    }
+                    if (index === userAnswers[currentQuestionIndex] && index !== q.answer) {
+                        button.classList.add('wrong');
+                    }
+                }
+                optionsContainer.appendChild(button);
+            });
+
+            const feedbackArea = document.getElementById('feedback-area');
+            if (userAnswers[currentQuestionIndex] !== null) {
+                feedbackArea.innerText = q.explanation;
+                feedbackArea.className = "feedback-box show " + 
+                    (userAnswers[currentQuestionIndex] === q.answer ? "correct-style" : "wrong-style");
+            } else {
+                feedbackArea.className = "feedback-box";
+            }
+
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            document.getElementById('next-btn').innerText = currentQuestionIndex === questions.length - 1 ? "完成答题并交卷" : "下一题";
+        }
+
+        function selectOption(selectedIndex) {
+            if (userAnswers[currentQuestionIndex] !== null) return;
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            renderQuestion();
+        }
+
+        function calculateScore() {
+            let correctCount = userAnswers.filter((ans, idx) => ans === questions[idx].answer).length;
+            return Math.round((correctCount / questions.length) * 100);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                document.getElementById('quiz-box').style.display = "none";
+                const finalScoreBox = document.getElementById('result-box');
+                finalScoreBox.style.display = "block";
+                
+                let score = calculateScore();
+                document.getElementById('final-score').innerText = score + " 分";
+                
+                let evalText = "";
+                if (score === 100) evalText = "🥇 满分通关！所有重难点和微观陷阱全部识破！大赛一等奖势在必得！";
+                else if (score >= 80) evalText = "🥈 表现极其优异！失分的题目主要是细节陷阱，多读两遍核心考点卡片即可完美避坑！";
+                else if (score >= 60) evalText = "🥉 及格啦！基础扎实，但面对诸如文件覆盖写入、字符串不可变性等文字游戏容易丢分，建议重新刷一次！";
+                else evalText = "❌ 得分较低。不要气馁，左边的核心考点卡片为你总结了极其详细的原理，静下心来看一遍再来挑战吧！";
+                
+                document.getElementById('evaluation-text').innerText = evalText;
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            renderQuestion();
+        }
+
+        renderQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>数字守艺人-Python模拟练习系统(6-7)</title>
+    <style>
+        body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: #2c3e50; border-bottom: 4px solid #27ae60; padding-bottom: 15px; }
+        .quiz-info { text-align: center; color: #7f8c8d; margin-bottom: 30px; }
+        .exam-section { margin-top: 40px; border-left: 6px solid #27ae60; padding-left: 15px; font-size: 1.3em; font-weight: bold; color: #2ecc71; background: #f9f9f9; padding-top: 10px; padding-bottom: 10px; }
+        .question-item { margin-bottom: 30px; padding: 20px; border: 1px solid #ecf0f1; border-radius: 12px; transition: 0.3s; }
+        .question-item:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .q-title { font-weight: 600; color: #34495e; margin-bottom: 15px; line-height: 1.6; white-space: pre-wrap; }
+        .options-list { list-style: none; padding: 0; }
+        .option-item { margin: 12px 0; padding: 12px 18px; background: #fff; border: 1px solid #dcdde1; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .option-item:hover { background: #e8f5e9; border-color: #2ecc71; }
+        .option-item.selected { background: #c8e6c9; border-color: #2ecc71; color: #1b5e20; font-weight: bold; }
+        .btn-container { position: sticky; bottom: 20px; text-align: center; padding: 20px; }
+        button { background: #27ae60; color: white; border: none; padding: 16px 60px; border-radius: 35px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(39,174,96,0.3); }
+        button:hover { background: #219150; transform: scale(1.05); }
+        .result-box { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; line-height: 1.6; }
+        .res-correct { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .res-wrong { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .analysis { background: #fff3cd; padding: 12px; margin-top: 10px; border-left: 4px solid #ffc107; font-size: 14px; }
+        #final-score { display: none; font-size: 26px; color: #e67e22; text-align: center; padding: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>“数字守艺人” Python 模拟练习系统 (Part 3)</h1>
+    <div class="quiz-info">包含卷六、卷七 | 共 40 题 (每题 5 分, 满分 200)</div>
+    
+    <div id="quiz-container"></div>
+    <div id="final-score"></div>
+
+    <div class="btn-container">
+        <button onclick="submitQuiz()">交卷并查看解析</button>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    // --- 模拟卷（六） ---
+    { section: "模拟卷 (六)", title: "1. 非遗竹编工具列表 tool = ['篾刀', '刨子', '分丝刀', '刮篾器']，执行 print(tool[-2]) 结果是？", options: ["篾刀", "分丝刀", "刨子", "刮篾器"], answer: 1, analysis: "负数索引从右往左数，-1是最后一个，-2是倒数第二个。" },
+    { title: "2. 记录竹丝粗细 size = 0.68，执行 print(type(size)) 输出类型为？", options: ["int", "float", "str", "bool"], answer: 1, analysis: "带有小数点的数字在 Python 中是浮点数（float）。" },
+    { title: "3. 执行代码：\nnum = 20\nnum -= 8\nnum = num // 3\n变量 num 的值是？", options: ["4", "5", "6", "3"], answer: 0, analysis: "20-8=12, 12//3 (整除) 结果为 4。" },
+    { title: "4. 非遗纹样 pattern = \"缠枝莲\"，执行 print(\"莲\" in pattern) 输出为？", options: ["False", "True", "0", "报错"], answer: 1, analysis: "in 运算符用于检查子字符串是否存在，结果为布尔值。" },
+    { title: "5. 工序列表 work = [\"备料\", '劈篾', '编织', '锁边']，切片 work[2:4] 结果是？", options: ["['劈篾', '编织']", "['编织', '锁边']", "['备料', '劈篾']", "['备料', '锁边']"], answer: 1, analysis: "切片 [2:4] 包含索引 2 和 3 的元素。" },
+    { title: "6. 代码：\nm = 8; n = 3\nif m < 5 or n > 2:\n    print(\"符合\")\nelse:\n    print(\"不符合\")\n输出结果是？", options: ["符合", "不符合", "8 3", "报错"], answer: 0, analysis: "or 运算只要有一方为真即为真，n > 2 为真。" },
+    { title: "7. 代码 for _ in range(5): print(\"匠心传承\") 会打印几次？", options: ["4", "5", "6", "0"], answer: 1, analysis: "range(5) 生成 0,1,2,3,4，共执行 5 次。" },
+    { title: "8. 列表 a = [5,6]，要在末尾批量添加 [7,8]，正确写法是？", options: ["a.append([7,8])", "a.extend([7,8])", "a.add(7,8)", "a.insert(7,8)"], answer: 1, analysis: "extend() 用于将另一个列表中的元素逐个添加到末尾。" },
+    { title: "9. 执行 print(\"非遗\" + \"守艺人\") 结果是？", options: ["非遗守艺人", "报错", "0", "非遗 守艺人"], answer: 0, analysis: "字符串连接使用 + 号。" },
+    { title: "10. 执行 b = int(6.99) 后，b 的值为？", options: ["7", "6", "6.99", "报错"], answer: 1, analysis: "int() 转换浮点数时直接丢弃小数部分。" },
+    { title: "11. 程序：\nt = 2\nwhile t < 7:\n    t += 3\nprint(t)\n输出结果是？", options: ["5", "7", "8", "4"], answer: 2, analysis: "2+3=5, 5<7继续；5+3=8, 8<7不成立跳出。打印 8。" },
+    { title: "12. Python 中表示等于的符号是？", options: ["=", "==", "===", "is"], answer: 1, analysis: "== 是比较运算符，= 是赋值。" },
+    { title: "13. 字符串 art = \"ShouYiRen\"，执行 print(art.upper()) 作用是？", options: ["全部小写", "全部大写", "首字母大写", "截取字符"], answer: 1, analysis: "upper() 方法将所有字母转为大写。" },
+    { title: "14. 定义 Python 函数的关键字是？", options: ["define", "def", "func", "function"], answer: 1, analysis: "Python 使用 def 定义函数。" },
+    { title: "15. 清空列表 M = [4,5,6] 所有元素，正确方法是？", options: ["M.clear()", "M.delete()", "M.remove()", "M.empty()"], answer: 0, analysis: "clear() 清空列表内容。" },
+    { title: "【判断】1. Python 中 9 / 3 运算结果是整数 3。", options: ["正确", "错误"], answer: 1, analysis: "/ 除法结果永远是浮点数 (3.0)。" },
+    { title: "【判断】2. 列表可以同时存放字符串、数字、布尔值不同类型元素。", options: ["正确", "错误"], answer: 0, analysis: "列表是异构容器，可以存放不同类型。" },
+    { title: "【判断】3. range(2,7) 和 range(2,7,1) 生成序列一致。", options: ["正确", "错误"], answer: 0, analysis: "步长默认为 1。" },
+    { title: "【判断】4. while、for 语句末尾可以不写冒号，不会报错。", options: ["正确", "错误"], answer: 1, analysis: "不写冒号会导致语法错误。" },
+    { title: "【判断】5. 表达式 not (10 < 5) 结果为 True。", options: ["正确", "错误"], answer: 0, analysis: "10<5 为 False，取反后为 True。" },
+
+    // --- 模拟卷（七） ---
+    { section: "模拟卷 (七)", title: "1. 非遗展会人数 vis = [260,180,320,410]，取最小值用哪个函数？", options: ["sum(vis)", "max(vis)", "min(vis)", "len(vis)"], answer: 2, analysis: "min() 返回最小值。" },
+    { title: "2. 非遗地点坐标 (30.5,120.3)，该数据类型是不可修改的？", options: ["列表", "元组", "字典", "字符串"], answer: 1, analysis: "圆括号包裹的是元组，具有不可变性。" },
+    { title: "3. 执行 print(9 % 2 + 3 ** 2) 结果是？", options: ["10", "11", "9", "8"], answer: 0, analysis: "1 + 9 = 10。" },
+    { title: "4. 亮度值 bright = 76，代码输出：\nif bright >= 85: print('高亮')\nelif bright >= 70: print('普通')\nelse: print('偏暗')", options: ["高亮", "普通", "偏暗", "报错"], answer: 1, analysis: "76 满足 >=70 的条件。" },
+    { title: "5. 颜色列表 color = ['赭石','花青','藤黄']，执行 color[0] = '朱红' 后列表为？", options: ["['朱红','花青','藤黄']", "['赭石','朱红','藤黄']", "['赭石','花青','朱红']", "报错"], answer: 0, analysis: "索引 0 处元素被替换。" },
+    { title: "6. 循环打印 “数字非遗” 3 次，代码错误的是？", options: ["for i in range(3):", "for i in range(1,3):", "for i in [1,2,3]:", "for i in range(0,3):"], answer: 1, analysis: "range(1,3) 只有 1,2，共 2 次。" },
+    { title: "7. Python 逻辑运算符中“或”是？", options: ["and", "not", "or", "||"], answer: 2, analysis: "Python 使用英文单词 or。" },
+    { title: "8. 字符串 s = \"Intangible_Culture\"，执行 s.split(\"_\") 结果是？", options: ["字符串拼接", "列表['Intangible','Culture']", "单个字符列表", "报错"], answer: 1, analysis: "split 根据分隔符切分为列表。" },
+    { title: "9. 嵌套循环执行后 ans 的值是？\nans = 0\nfor i in range(2,4):\n    for j in range(2,4): ans += 1", options: ["2", "3", "4", "5"], answer: 2, analysis: "2*2=4 次。" },
+    { title: "10. 判断数字 n 既是 4 的倍数又是 6 的倍数，正确表达式？", options: ["n%4==0 or n%6==0", "n%4==0 and n%6==0", "n/24==0", "n%24!=0"], answer: 1, analysis: "同时满足用 and。" },
+    { title: "11. 列表中删除并返回指定索引元素的方法是？", options: ["remove()", "pop()", "del", "clear()"], answer: 1, analysis: "pop() 删除并返回该值。" },
+    { title: "12. 执行 print(bool(\"\")) 结果是？", options: ["True", "False", "空字符串", "报错"], answer: 1, analysis: "空字符串布尔值为 False。" },
+    { title: "13. 代码执行后 b 的值是？\na = '木雕技艺'; b = a; a = '陶瓷技艺'", options: ["木雕技艺", "陶瓷技艺", "a", "报错"], answer: 0, analysis: "b 指向了原字符串。" },
+    { title: "14. 查找字符串中字符索引位置可用？", options: ["find()", "search()", "locate()", "get()"], answer: 0, analysis: "find() 用于查找索引。" },
+    { title: "15. 列表 b = [4,7,9]，执行 print(b*3) 结果是？", options: ["[12,21,27]", "[4,7,9,4,7,9,4,7,9]", "报错", "[4,4,4,7,7,7]"], answer: 1, analysis: "列表乘法是重复拼接。" },
+    { title: "【判断】6. input() 函数内的提示文字只起提示作用，不影响输入数据。", options: ["正确", "错误"], answer: 0, analysis: "提示文字是给用户看的。" },
+    { title: "【判断】7. type(False) 的结果是字符串类型。", options: ["正确", "错误"], answer: 1, analysis: "是布尔类型 (bool)。" },
+    { title: "【判断】8. while True: 配合 break 可以跳出死循环。", options: ["正确", "错误"], answer: 0, analysis: "break 用于强制退出循环。" },
+    { title: "【判断】9. 列表 num = [9,3,7,1] 执行 num.sort() 后升序排列。", options: ["正确", "错误"], answer: 0, analysis: "sort 默认升序。" },
+    { title: "【判断】10. 6>10 or 5<9 运算结果为 False。", options: ["正确", "错误"], answer: 1, analysis: "5<9 为真，or 结果为 True。" }
+];
+
+let userAnswers = new Array(quizData.length).fill(null);
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    quizData.forEach((q, qIndex) => {
+        if (q.section) {
+            const sectionHeader = document.createElement('div');
+            sectionHeader.className = 'exam-section';
+            sectionHeader.innerText = q.section;
+            container.appendChild(sectionHeader);
+        }
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question-item';
+        qDiv.id = `q-item-${qIndex}`;
+        let optionsHTML = q.options.map((opt, oIndex) => `
+            <li class="option-item" onclick="selectOption(${qIndex}, ${oIndex})" id="opt-${qIndex}-${oIndex}">
+                ${String.fromCharCode(65 + oIndex)}. ${opt}
+            </li>
+        `).join('');
+        qDiv.innerHTML = `<div class="q-title">${q.title}</div><ul class="options-list">${optionsHTML}</ul><div id="result-${qIndex}" class="result-box"></div>`;
+        container.appendChild(qDiv);
+    });
+}
+
+function selectOption(qIndex, oIndex) {
+    userAnswers[qIndex] = oIndex;
+    document.querySelectorAll(`#q-item-${qIndex} .option-item`).forEach(opt => opt.classList.remove('selected'));
+    document.getElementById(`opt-${qIndex}-${oIndex}`).classList.add('selected');
+}
+
+function submitQuiz() {
+    let score = 0;
+    quizData.forEach((q, i) => {
+        const resultDiv = document.getElementById(`result-${i}`);
+        resultDiv.style.display = 'block';
+        if (userAnswers[i] === q.answer) {
+            score += 5;
+            resultDiv.className = 'result-box res-correct';
+            resultDiv.innerHTML = `<b>正确!</b>`;
+        } else {
+            resultDiv.className = 'result-box res-wrong';
+            const userChoice = userAnswers[i] === null ? "未作答" : String.fromCharCode(65 + userAnswers[i]);
+            resultDiv.innerHTML = `<b>错误!</b> 你的选择: ${userChoice} | <b>正确答案: ${String.fromCharCode(65 + q.answer)}</b><div class="analysis"><b>解析:</b> ${q.analysis}</div>`;
+        }
+    });
+    const finalScoreDiv = document.getElementById('final-score');
+    finalScoreDiv.style.display = 'block';
+    finalScoreDiv.innerHTML = `练习结束！本次练习得分：${score} / 200`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+renderQuiz();
+</script>
+</body>
+</html>
